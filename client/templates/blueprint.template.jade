@@ -1,0 +1,10 @@
+template(name="blueprint")
+	.container(ng-controller="BlueprintCtrl")
+		.panel.panel-info
+			.panel-heading
+				span
+					i.fa.fa-flask
+					span(ng-bind="blueprint.name")
+
+			.panel-body
+				pre(ng-bind="blueprint | json")
