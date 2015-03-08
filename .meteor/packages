@@ -13,5 +13,5 @@ accounts-password
 erasaur:meteor-lodash
 fortawesome:fontawesome
 particle4dev:sass
-mquandalle:jade
-iron:router
+angularui:angular-ui-router
+civilframe:angular-jade

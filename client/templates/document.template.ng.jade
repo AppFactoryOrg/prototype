@@ -1,0 +1,20 @@
+.document.well
+	input.name.form-control(type="text" placeholder="Enter a name" ng-model="document.name")
+	button.btn.btn-sm.btn-primary.save(ng-click="saveDocument()")
+		i.fa.fa-save
+		span Save
+	button.btn.btn-sm.btn-default.delete(ng-click="deleteDocument()")
+		i.fa.fa-trash
+
+	hr/
+
+	table.table.table-striped
+		tr
+			th Attribute Name
+			th Attribute Type
+		tr
+			td Name
+			td Text
+		tr
+			td Mana Cost
+			td Text

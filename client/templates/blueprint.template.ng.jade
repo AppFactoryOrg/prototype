@@ -1,0 +1,27 @@
+.blueprint(ng-controller="BlueprintCtrl")
+	.panel.panel-info
+		.panel-heading
+			span
+				i.fa.fa-flask
+				input.name.form-control(type="text" placeholder="Enter a name" ng-model="blueprint.name")
+
+			.pull-right
+				.version(ng-bind="'v' + blueprint.version")
+
+		.panel-body
+			.col-sm-4
+				.list-group
+					a.list-group-item(
+							ng-repeat="document in documents" 
+							ng-click="selectDocument(document)" 
+							ng-class="{'active': documentIsSelected(document)}"
+						)
+						.name(ng-bind="document.name")
+
+				button.btn.btn-sm.btn-success.create(ng-click="createDocument()")
+					i.fa.fa-plus
+					span Add Document
+
+
+			.col-sm-8(ng-show="selectedDocument")
+				af-document(document="selectedDocument")

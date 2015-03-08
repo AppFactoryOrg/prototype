@@ -1,4 +1,4 @@
-angular.module('app-factory').controller 'BlueprintsCtrl', ($scope, $meteor) ->
+angular.module('app-factory').controller 'BlueprintsCtrl', ($scope, $meteor, $state) ->
 	$scope.blueprints = $meteor.collection(Blueprints).subscribe('Blueprints')
 
 	$scope.create = () ->
@@ -11,4 +11,4 @@ angular.module('app-factory').controller 'BlueprintsCtrl', ($scope, $meteor) ->
 		Blueprints.remove(_id: blueprint['_id'])
 
 	$scope.edit = (blueprint) ->
-		Router.go('blueprint', id: blueprint['_id'])
+		$state.go('blueprint', blueprint_id: blueprint['_id'])

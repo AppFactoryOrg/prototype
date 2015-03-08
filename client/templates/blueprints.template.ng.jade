@@ -1,0 +1,25 @@
+.blueprints(ng-controller="BlueprintsCtrl")
+	h1 Blueprints
+
+	button.btn.btn-sm.btn-success(ng-click="create()")
+		i.fa.fa-plus
+		span Add
+
+	hr/
+
+	div(ng-repeat="blueprint in blueprints")
+		.panel.panel-info
+			.panel-heading
+				span
+					i.fa.fa-flask
+					span(ng-bind="blueprint.name")
+
+				button.btn.btn-xs.btn-default.pull-right(ng-click="delete(blueprint)")
+					i.fa.fa-close
+
+				button.btn.btn-xs.btn-primary.pull-right(ng-click="edit(blueprint)")
+					i.fa.fa-folder-open-o
+					span Open
+
+			.panel-body
+				pre(ng-bind="blueprint | json")
