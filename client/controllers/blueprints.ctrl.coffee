@@ -1,9 +1,10 @@
 angular.module('app-factory').controller 'BlueprintsCtrl', ($scope, $meteor) ->
-	$scope.blueprints = $meteor.collection(Blueprints)
+	$scope.blueprints = $meteor.collection(Blueprints).subscribe('Blueprints')
 
 	$scope.create = () ->
-		return unless name = window.prompt('Name:')
-		Blueprints.insert({name})
+		return unless name = prompt('Enter a name:')
+		id = Blueprints.insert('name': name, 'version': '1.0.0')
+		Router.go('blueprint', id: id)
 
 	$scope.delete = (blueprint) ->
 		return unless confirm('Are you sure?')

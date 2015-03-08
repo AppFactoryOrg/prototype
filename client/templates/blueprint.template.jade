@@ -1,10 +1,47 @@
 template(name="blueprint")
-	.container(ng-controller="BlueprintCtrl")
+	.blueprint.container(ng-controller="BlueprintCtrl")
 		.panel.panel-info
 			.panel-heading
 				span
 					i.fa.fa-flask
-					span(ng-bind="blueprint.name")
+					input.name.form-control(type="text" placeholder="Enter a name" ng-model="blueprint.name")
+
+				.pull-right
+					.version(ng-bind="'v' + blueprint.version")
 
 			.panel-body
-				pre(ng-bind="blueprint | json")
+				.col-sm-4
+					.list-group
+						a.list-group-item(
+								ng-repeat="document in documents" 
+								ng-click="selectDocument(document)" 
+								ng-class="{'active': documentIsSelected(document)}"
+							)
+							.name(ng-bind="document.name")
+
+					button.btn.btn-sm.btn-success.create(ng-click="createDocument()")
+						i.fa.fa-plus
+						span Add Document
+
+
+				.col-sm-8(ng-show="selectedDocument")
+					.edit-document.well
+						input.name.form-control(type="text" placeholder="Enter a name" ng-model="selectedDocument.name")
+						button.btn.btn-sm.btn-primary.save(ng-click="saveDocument(selectedDocument)")
+							i.fa.fa-save
+							span Save
+						button.btn.btn-sm.btn-default.delete(ng-click="deleteDocument(selectedDocument)")
+							i.fa.fa-trash
+
+						hr/
+
+						table.table.table-striped
+							tr
+								th Attribute Name
+								th Attribute Type
+							tr
+								td Name
+								td Text
+							tr
+								td Mana Cost
+								td Text
