@@ -10,8 +10,8 @@ urigo:angular
 coffeescript
 accounts-ui
 accounts-password
-erasaur:meteor-lodash
 fortawesome:fontawesome
 particle4dev:sass
 angularui:angular-ui-router
 civilframe:angular-jade
+reactive-var

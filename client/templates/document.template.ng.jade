@@ -2,19 +2,52 @@
 	input.name.form-control(type="text" placeholder="Enter a name" ng-model="document.name")
 	button.btn.btn-sm.btn-primary.save(ng-click="saveDocument()")
 		i.fa.fa-save
-		span Save
+		label Save
 	button.btn.btn-sm.btn-default.delete(ng-click="deleteDocument()")
 		i.fa.fa-trash
 
 	hr/
 
-	table.table.table-striped
-		tr
-			th Attribute Name
-			th Attribute Type
-		tr
-			td Name
-			td Text
-		tr
-			td Mana Cost
-			td Text
+	table.table.table-hover.table-striped.table-condesced(ng-if="attributes.length")
+		thead
+			tr
+				th Attribute Name
+				th(width="200") Attribute Type
+				th(width="100")
+		tbody
+			tr(ng-repeat="attribute in attributes")
+				td
+					span(
+						editable-text="attribute.name" 
+						e-name="name" 
+						e-form="rowform" 
+						e-required=""
+					) {{attribute.name}}
+				td
+					span(
+						editable-select="attribute.type" 
+						e-name="name" 
+						e-form="rowform" 
+						e-ng-options="value as key for (key, value) in attributeTypes" 
+						e-required=""
+						) {{attribute.type | dictionary:attributeTypes}}
+				td
+					form.form-buttons.form-inline(
+						editable-form="" 
+						name="rowform" 
+						onaftersave="saveAttribute(attribute)" 
+						ng-show="rowform.$visible" 
+					)
+						button.btn.btn-xs.btn-primary(type="submit" ng-disabled="rowform.$waiting")
+							i.fa.fa-save
+						button.btn.btn-xs.btn-default(type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()")
+							i.fa.fa-close
+					.buttons(ng-show="!rowform.$visible")
+						button.btn.btn-xs.btn-primary(ng-click="rowform.$show()")
+							i.fa.fa-pencil
+						button.btn.btn-xs.btn-default(ng-click="deleteAttribute(attribute)")
+							i.fa.fa-trash
+
+	button.btn.btn-sm.btn-success.create(ng-click="addAttribute()")
+		i.fa.fa-plus
+		label Add Attribute
