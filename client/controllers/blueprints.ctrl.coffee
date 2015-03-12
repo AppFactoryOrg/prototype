@@ -8,7 +8,7 @@ angular.module('app-factory').controller 'BlueprintsCtrl', ($scope, $meteor, $st
 			'version': '1.0.0'
 
 		$scope.blueprints.save(blueprint).then (created) ->
-			$state.go('blueprint', blueprint_id: created['_id'])
+			$state.go('blueprint', blueprint_id: created[0]['_id'])
 
 	$scope.delete = (blueprint) ->
 		return unless confirm('Are you sure?')

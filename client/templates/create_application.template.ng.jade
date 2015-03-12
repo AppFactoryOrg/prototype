@@ -1,0 +1,16 @@
+.create-application
+	.modal-header
+		h3.modal-title Add Application
+	.modal-body
+		form
+			.form-group
+				label Name
+				input.form-control(type="text" ng-model="name")
+			.form-group
+				label Blueprint
+				select.form-control(ng-options="blueprint.name for blueprint in blueprints" ng-model="selectedBlueprint")
+	.modal-footer
+		button.btn.btn-default(ng-click="$dismiss()") Cancel
+		button.btn.btn-primary(ng-click="submit()") 
+			label Add 
+			i.fa.fa-chevron-right

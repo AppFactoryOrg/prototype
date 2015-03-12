@@ -6,9 +6,7 @@
 	button.btn.btn-sm.btn-default.delete(ng-click="deleteDocument()")
 		i.fa.fa-trash
 
-	hr/
-
-	table.table.table-hover.table-striped.table-condesced(ng-if="attributes.length")
+	table.attributes.table.table-hover.table-striped.table-condensed
 		thead
 			tr
 				th Attribute Name
@@ -38,15 +36,19 @@
 						onaftersave="saveAttribute(attribute)" 
 						ng-show="rowform.$visible" 
 					)
-						button.btn.btn-xs.btn-primary(type="submit" ng-disabled="rowform.$waiting")
-							i.fa.fa-save
-						button.btn.btn-xs.btn-default(type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()")
-							i.fa.fa-close
+						.btn-group
+							button.btn.btn-xs.btn-primary(type="submit" ng-disabled="rowform.$waiting")
+								i.fa.fa-save
+							button.btn.btn-xs.btn-default(type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()")
+								i.fa.fa-close
 					.buttons(ng-show="!rowform.$visible")
-						button.btn.btn-xs.btn-primary(ng-click="rowform.$show()")
-							i.fa.fa-pencil
-						button.btn.btn-xs.btn-default(ng-click="deleteAttribute(attribute)")
-							i.fa.fa-trash
+						.btn-group
+							button.btn.btn-xs.btn-primary(ng-click="rowform.$show()")
+								i.fa.fa-pencil
+							button.btn.btn-xs.btn-default(ng-click="deleteAttribute(attribute)")
+								i.fa.fa-trash
+				tr(ng-hide="attributes.length")
+					td(colspan="3" align="center") No attributes.
 
 	button.btn.btn-sm.btn-success.create(ng-click="addAttribute()")
 		i.fa.fa-plus

@@ -14,8 +14,8 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 			url: '/blueprint/:blueprint_id'
 			templateUrl: 'client/templates/blueprint.template.html'
 
-		.state 'apps',
-			url: '/apps'
-			templateUrl: 'client/templates/apps.template.html'
+		.state 'applications',
+			url: '/applications'
+			templateUrl: 'client/templates/applications.template.html'
 	
 	$urlRouterProvider.otherwise '/home'
