@@ -17,5 +17,9 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 		.state 'applications',
 			url: '/applications'
 			templateUrl: 'client/templates/applications.template.html'
+
+		.state 'application',
+			url: '/application/:application_id'
+			templateUrl: 'client/templates/application.template.html'
 	
 	$urlRouterProvider.otherwise '/home'

@@ -1,0 +1,9 @@
+.application(ng-controller="ApplicationCtrl")
+	.panel.panel-success
+		.panel-heading
+			span
+				i.fa.fa-gear
+				.name(ng-bind="application.name")
+
+		.panel-body
+			pre {{application | json}}
