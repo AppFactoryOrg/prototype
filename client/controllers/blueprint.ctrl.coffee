@@ -1,7 +1,7 @@
 angular.module('app-factory').controller 'BlueprintCtrl', ($scope, $meteor, $stateParams, $timeout) ->
 	blueprint_id = $stateParams.blueprint_id
 
-	$scope.blueprint = $meteor.object(Blueprints, blueprint_id).subscribe('Blueprints');
+	$scope.blueprint = $meteor.object(Blueprints, blueprint_id).subscribe('Blueprints')
 	$scope.documentSchemas = $meteor.collection(DocumentSchemas, false).subscribe('DocumentSchemas', blueprint_id)
 	
 	$scope.selectedDocumentSchema = null
@@ -14,6 +14,5 @@ angular.module('app-factory').controller 'BlueprintCtrl', ($scope, $meteor, $sta
 		return unless name = prompt('Enter a name:')
 		$scope.documentSchemas.save
 			'name': name
-			'attributes': []
 			'blueprint_id': blueprint_id
 

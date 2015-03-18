@@ -1,2 +1,2 @@
-Meteor.publish 'Attributes', (document) ->
-	return Attributes.find('document_id': document._id)
+Meteor.publish 'Attributes', (document_id) ->
+	return Attributes.find('document_id': document_id)

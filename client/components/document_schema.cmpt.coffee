@@ -6,10 +6,12 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor) ->
 		onDeleted: '&'
 	controller: ($scope) ->
 		$scope.documentSchemas = $meteor.collection(DocumentSchemas, false)
+		$scope.attributes = $meteor.collection(Attributes, false)
 		
 		$meteor.autorun $scope, () ->
-			$scope.attributes = $meteor.collection(Attributes, false).subscribe('Attributes', $scope.getReactively('documentSchema'))
-
+			documentSchema = $scope.getReactively('documentSchema')
+			$meteor.subscribe('Attributes', documentSchema['_id'])
+		
 		$scope.attributeTypes = {
 			'Text': 		'0'
 			'Number': 		'1'
