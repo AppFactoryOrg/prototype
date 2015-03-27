@@ -1,0 +1,1 @@
+sudo meteor deploy http://appfactory-proto.meteor.com/ --debug

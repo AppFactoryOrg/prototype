@@ -1,6 +1,14 @@
 .applications(ng-controller="ApplicationsCtrl")
 	h1 Applications
 
+	.alert.alert-tip
+		i.fa.fa-info-circle
+		span An Application contains data and logic defined by the format of its Blueprint.
+		br/
+		i.fa.fa-calendar
+		span In the future, other users will be able to login to your Applications and interact with them in a controlled manner.
+
+	br/
 	button.btn.btn-sm.btn-success(ng-click="create()")
 		i.fa.fa-plus
 		label Add application
@@ -22,4 +30,7 @@
 						i.fa.fa-trash
 
 			.panel-body
-				pre(ng-bind="application | json")
+				//- pre(ng-bind="application | json")
+				.alert.alert-tip
+					i.fa.fa-info-circle
+					span This is an Application based on the "{{application.blueprint.name}}" Blueprint.

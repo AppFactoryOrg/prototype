@@ -9,10 +9,21 @@
 				.version(ng-bind="'v' + blueprint.version")
 
 		.panel-body
+
+			.alert.alert-tip
+				i.fa.fa-info-circle
+				span This is your Blueprint. The tabs below list the various parts of an Application that this Blueprint describes. For now, there are only Documents.
+				br/
+				i.fa.fa-info-circle
+				span Applications contain Documents. A Document describes a record of information in the Application.
+				br/
+				i.fa.fa-info-circle
+				span Documents have Attributes, which describe the information that Document can store. 
+
 			.nav.nav-tabs
 				li.active 
 					a(href="#") Documents
-					
+
 			.col-sm-4
 				.list-group
 					a.list-group-item(
@@ -25,7 +36,6 @@
 				button.btn.btn-sm.btn-success.create(ng-click="createDocumentSchema()")
 					i.fa.fa-plus
 					label Add Document
-
 
 			.col-sm-8
 				af-document-schema(

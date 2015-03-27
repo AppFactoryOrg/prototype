@@ -3,9 +3,8 @@ angular.module('app-factory').controller 'ApplicationsCtrl', ($scope, $meteor, $
 
 	$scope.create = () ->
 		$modal.open(CreateApplicationModal).result.then (application) ->
-			$scope.applications.save(application).then (created) ->
-				$state.go('application', application_id: created[0]['_id'])
-
+			$scope.applications.save(application)
+			
 	$scope.delete = (application) ->
 		return unless confirm('Are you sure?')
 		$scope.applications.remove(application)

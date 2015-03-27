@@ -5,9 +5,10 @@
 	<div ng-app="app-factory" class="container">
 		<div class="navbar navbar-default">
 			<ul class="nav navbar-nav">
-				<li class="navbar-header"><a href="/" class="navbar-brand"><i class="fa fa-gear"></i><span> AppFactory</span></a></li>
-				<li><a ui-sref="blueprints">Blueprints</a></li>
-				<li><a ui-sref="applications">Applications</a></li>
+				<li class="navbar-header"><a ui-sref="home" class="navbar-brand"><i class="fa fa-gear"></i><span> AppFactory</span></a></li>
+				<li><a ui-sref="blueprints" ng-if="currentUser">Blueprints</a></li>
+				<li><a ui-sref="applications" ng-if="currentUser">Applications</a></li>
+				<li><meteor-include src="loginButtons"></meteor-include></li>
 			</ul>
 		</div>
 		<div ui-view></div>

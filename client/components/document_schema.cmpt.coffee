@@ -15,7 +15,7 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor) ->
 		$scope.attributeTypes = {
 			'Text': 		'0'
 			'Number': 		'1'
-			'DocumentSchema': 	'2'
+			'Date': 	    '2'
 		}
 
 		$scope.saveDocumentSchema = ->

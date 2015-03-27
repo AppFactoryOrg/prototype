@@ -3,7 +3,7 @@ angular.module('app-factory').value 'CreateApplicationModal',
 	controller: 'CreateApplicationCtrl'
 	size: 'sm'
 
-angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $meteor, $state, $modalInstance) ->
+angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $rootScope, $meteor, $state, $modalInstance) ->
 	$scope.name = ''
 	$scope.selectedBlueprint = null
 
@@ -13,3 +13,4 @@ angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $mete
 		$modalInstance.close
 			'name': $scope.name
 			'blueprint': $scope.selectedBlueprint
+			'owner_id': $rootScope.currentUser['_id']
