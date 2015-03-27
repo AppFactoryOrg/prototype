@@ -21,6 +21,10 @@
 							tr(ng-repeat="document in documents")
 								td(ng-repeat="attribute in attributes") {{getDocumentAttribute(document, attribute)}}
 
+			.alert.alert-warning
+				i.fa.fa-warning
+				span Under Construction
+
 			//- 		h5 Document Schema
 			//- 		pre {{documentSchema| json}}
 					
