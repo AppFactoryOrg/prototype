@@ -1,25 +1,19 @@
-.create-application
+.create_attribute
 	.modal-header
-		h3.modal-title Create Application
+		h3.modal-title Create Document
 
 	.modal-body
-		form
+		form(ng-submit="submit()" novalidate)
 			.form-group
 				label Name
 				input.form-control(
 					type="text" 
-					ng-model="name"
+					ng-model="documentSchema.name"
 					autofocus
-				)
-			.form-group
-				label Blueprint
-				select.form-control(
-					ng-options="blueprint.name for blueprint in blueprints" 
-					ng-model="selectedBlueprint"
 				)
 
 	.modal-footer
 		button.btn.btn-default(ng-click="$dismiss()") Cancel
 		button.btn.btn-primary(ng-click="submit()") 
-			label Add 
+			label Create
 			i.fa.fa-chevron-right

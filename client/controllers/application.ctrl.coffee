@@ -12,7 +12,8 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 	$meteor.subscribe('Applications', application_id).then ->
 		application = Applications.findOne('_id': application_id)
 		blueprint_id = application['blueprint']['_id']
-		$meteor.subscribe('DocumentSchemas', blueprint_id)
+		$meteor.subscribe('DocumentSchemas', blueprint_id).then (handle) ->
+			$scope.$on '$destroy', -> handle?.stop()
 
 	$meteor.autorun $scope, () ->
 		documentSchema = $scope.getReactively('selectedDocumentSchema')

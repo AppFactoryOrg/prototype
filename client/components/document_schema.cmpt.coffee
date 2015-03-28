@@ -1,4 +1,4 @@
-angular.module('app-factory').directive 'afDocumentSchema', ($meteor, ATTRIBUTE_TYPES) ->
+angular.module('app-factory').directive 'afDocumentSchema', ($meteor, $modal, ATTRIBUTE_TYPES, CreateAttributeModal) ->
 	restrict: 'E'
 	templateUrl: 'client/templates/document_schema.template.html'
 	scope:
@@ -23,11 +23,11 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor, ATTRIBUTE_
 			$scope.onDeleted()
 
 		$scope.addAttribute = ->
-			return unless name = window.prompt('Enter a name:')
-			$scope.attributes.save
-				'name': name
-				'type': $scope.attributeTypes['Text']
-				'document_id': $scope.documentSchema['_id']
+			documentSchema = $scope.documentSchema
+			
+			modal = $modal.open(new CreateAttributeModal({documentSchema}))
+			modal.result.then (attribute) ->
+				$scope.attributes.save(attribute)
 
 		$scope.saveAttribute = (attribute) ->
 			$scope.attributes.save(attribute)

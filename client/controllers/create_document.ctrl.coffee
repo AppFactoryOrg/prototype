@@ -17,7 +17,8 @@ angular.module('app-factory').controller 'CreateDocumentCtrl', ($scope, $rootSco
 		'document_schema_id': documentSchema['_id']
 		'data': {}
 
-	$meteor.subscribe('Attributes', documentSchema['_id']).then ->
+	$meteor.subscribe('Attributes', documentSchema['_id']).then (handle) ->
+		$scope.$on '$destroy', -> handle.stop()
 		$scope.attributes.forEach (attribute) ->
 			$scope.document.data[attribute['_id']] = null
 

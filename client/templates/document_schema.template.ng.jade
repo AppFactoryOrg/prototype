@@ -36,13 +36,13 @@
 						onaftersave="saveAttribute(attribute)" 
 						ng-show="rowform.$visible" 
 					)
-						.btn-group
+						.btn-group.pull-right
 							button.btn.btn-xs.btn-primary(type="submit" ng-disabled="rowform.$waiting")
 								i.fa.fa-save
 							button.btn.btn-xs.btn-default(type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()")
 								i.fa.fa-close
 					.buttons(ng-show="!rowform.$visible")
-						.btn-group
+						.btn-group.pull-right
 							button.btn.btn-xs.btn-primary(ng-click="rowform.$show()")
 								i.fa.fa-pencil
 							button.btn.btn-xs.btn-default(ng-click="deleteAttribute(attribute)")
