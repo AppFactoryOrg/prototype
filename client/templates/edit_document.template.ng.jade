@@ -1,0 +1,55 @@
+.edit-document
+	.modal-header
+		h3.modal-title
+			span(ng-if="createMode") Create
+			span(ng-hide="createMode") Edit
+			span {{' ' + documentSchema.name}}
+
+	.modal-body
+		form.form-horizontal(ng-submit="submit()" novalidate)
+			fieldset
+				.form-group(ng-repeat="attribute in attributes" ng-switch="attribute.type")
+					label.control-label.col-lg-3 {{attribute.name}}
+					.col-lg-1
+					.col-lg-7
+						.input-group(ng-switch-default)
+							.input-group-addon
+							input.form-control(
+								type="text" 
+								ng-model="document.data[attribute._id]"
+							)
+						.input-group(ng-switch-when="0")
+							.input-group-addon
+							input.form-control(
+								type="text" 
+								ng-model="document.data[attribute._id]"
+							)
+						.input-group(ng-switch-when="1")
+							.input-group-addon
+							input.form-control(
+								type="number" 
+								ng-model="document.data[attribute._id]"
+							)
+						.input-group(ng-switch-when="2")
+							.input-group-addon
+								i.fa.fa-calendar
+							input.form-control(
+								type="date"
+								ng-model="document.data[attribute._id]"
+							)
+						.input-group(ng-switch-when="3")
+							.input-group-addon
+								i.fa.fa-dollar
+							input.form-control(
+								type="number" 
+								step="0.01" 
+								ng-model="document.data[attribute._id]"
+							)
+					.col-lg-1
+
+	.modal-footer
+		button.btn.btn-default(ng-click="$dismiss()") Cancel
+		button.btn.btn-primary(ng-click="submit()") 
+			label(ng-if="createMode") Create
+			label(ng-hide="createMode") Save
+			i.fa.fa-chevron-right

@@ -17,13 +17,25 @@
 						thead
 							tr
 								th(ng-repeat="attribute in attributes") {{attribute.name}}
+								th(width="75")
+
 						tbody
 							tr(ng-repeat="document in documents")
-								td(ng-repeat="attribute in attributes") {{getDocumentAttribute(document, attribute)}}
+								td(ng-repeat="attribute in attributes") {{formatDocumentData(document, attribute)}}
+								td
+									.btn-group.pull-right
+										button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
+											i.fa.fa-pencil
+										button.btn.btn-xs.btn-default(ng-click="deleteDocument(document)")
+											i.fa.fa-trash
 
-			.alert.alert-warning
-				i.fa.fa-warning
-				span Under Construction
+							tr(ng-hide="documents.length")
+								td(colspan="99")
+									.text-muted No Data Yet
+
+					button.add-document.btn.btn-success(ng-click="addDocument()")
+						i.fa.fa-plus
+						span Add {{documentSchema.name}}
 
 			//- 		h5 Document Schema
 			//- 		pre {{documentSchema| json}}

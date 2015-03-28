@@ -1,9 +1,10 @@
-angular.module('app-factory').value 'CreateApplicationModal',
-	templateUrl: 'client/templates/create_application.template.html'
-	controller: 'CreateApplicationCtrl'
-	size: 'sm'
+angular.module('app-factory').factory 'CreateApplicationModal', ->
+	return ->
+		templateUrl: 'client/templates/create_application.template.html'
+		controller: 'CreateApplicationCtrl'
+		size: 'sm'
 
-angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $rootScope, $meteor, $state, $modalInstance) ->
+angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $rootScope, $meteor, $modalInstance) ->
 	$scope.name = ''
 	$scope.selectedBlueprint = null
 

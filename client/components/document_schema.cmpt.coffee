@@ -1,22 +1,17 @@
-angular.module('app-factory').directive 'afDocumentSchema', ($meteor) ->
+angular.module('app-factory').directive 'afDocumentSchema', ($meteor, ATTRIBUTE_TYPES) ->
 	restrict: 'E'
 	templateUrl: 'client/templates/document_schema.template.html'
 	scope:
 		documentSchema: '='
 		onDeleted: '&'
 	controller: ($scope) ->
+		$scope.attributeTypes = ATTRIBUTE_TYPES
 		$scope.documentSchemas = $meteor.collection(DocumentSchemas, false)
 		$scope.attributes = $meteor.collection(Attributes, false)
 		
 		$meteor.autorun $scope, () ->
 			documentSchema = $scope.getReactively('documentSchema')
 			$meteor.subscribe('Attributes', documentSchema['_id'])
-		
-		$scope.attributeTypes = {
-			'Text': 		'0'
-			'Number': 		'1'
-			'Date': 	    '2'
-		}
 
 		$scope.saveDocumentSchema = ->
 			$scope.documentSchemas.save($scope.documentSchema)

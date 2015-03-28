@@ -2,7 +2,7 @@ angular.module('app-factory').controller 'ApplicationsCtrl', ($scope, $meteor, $
 	$scope.applications = $meteor.collection(Applications).subscribe('Applications')
 
 	$scope.create = () ->
-		$modal.open(CreateApplicationModal).result.then (application) ->
+		$modal.open(new CreateApplicationModal()).result.then (application) ->
 			$scope.applications.save(application)
 			
 	$scope.delete = (application) ->
