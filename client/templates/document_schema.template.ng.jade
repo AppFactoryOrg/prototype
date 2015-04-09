@@ -24,11 +24,19 @@
 				td
 					span(
 						editable-select="attribute.type" 
-						e-name="name" 
+						e-name="type" 
 						e-form="rowform" 
 						e-ng-options="value as key for (key, value) in attributeTypes" 
 						e-required=""
-						) {{attribute.type | dictionary:attributeTypes}}
+					) {{attribute.type | dictionary:attributeTypes}}
+					span.document-type(
+						ng-if="showDocumentSelection(attribute)"
+						editable-select="attribute.document_type" 
+						e-name="documenttype" 
+						e-form="rowform" 
+						e-ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas" 
+						e-required=""
+					) ({{getAttributeName(attribute.document_type)}})
 				td
 					form.form-buttons.form-inline(
 						editable-form="" 

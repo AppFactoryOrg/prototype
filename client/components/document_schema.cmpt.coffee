@@ -13,6 +13,13 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor, $modal, AT
 			documentSchema = $scope.getReactively('documentSchema')
 			$meteor.subscribe('Attributes', documentSchema['_id'])
 
+		$scope.showDocumentSelection = (attribute) ->
+			attribute.type is ATTRIBUTE_TYPES['Document']
+
+		$scope.getAttributeName = (documentSchemaId) ->
+			documentSchema =_.findWhere($scope.documentSchemas, {_id: documentSchemaId})
+			return documentSchema?.name
+
 		$scope.saveDocumentSchema = ->
 			$scope.documentSchemas.save($scope.documentSchema)
 			$scope.selectedDocumentSchema = null
