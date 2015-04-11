@@ -3,19 +3,25 @@
 		h3.modal-title Create Attribute
 
 	.modal-body
-		form(ng-submit="submit()" novalidate)
-			.form-group
+		form.row(ng-submit="submit()" novalidate)
+			.form-group.col-sm-12
 				label Name
 				input.form-control(
 					type="text" 
 					ng-model="attribute.name"
 					autofocus
 				)
-			.form-group
+			.form-group.col-sm-12(ng-class="{'col-sm-6': showDocumentSelection()}")
 				label Type
 				select.form-control(
 					ng-options="value as key for (key, value) in attributeTypes"
 					ng-model="attribute.type"
+				)
+			.form-group.col-sm-6(ng-if="showDocumentSelection()")
+				label Document Type
+				select.form-control(
+					ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+					ng-model="attribute.document_type"
 				)
 
 	.modal-footer

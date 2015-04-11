@@ -1,10 +1,21 @@
-.document-schema.well
-	input.name.form-control(type="text" placeholder="Enter a name" ng-model="documentSchema.name")
-	button.btn.btn-sm.btn-primary.save(ng-click="saveDocumentSchema()")
-		i.fa.fa-save
-		label Save
-	button.btn.btn-sm.btn-default.delete(ng-click="deleteDocumentSchema()")
-		i.fa.fa-trash
+.document-schema.well.clearfix
+	form.form-inline(novalidate)
+		.form-group
+			label Name
+			input.form-control.name(type="text" placeholder="Enter a name" ng-model="documentSchema.name")
+		
+		.form-group
+			label Primary Attribute
+			select.form-control.primary-attribute(
+				ng-options="attribute._id as attribute.name for attribute in attributes"
+				ng-model="documentSchema.primary_attribute_id"
+			)
+
+		button.btn.btn-sm.btn-primary.save(ng-click="saveDocumentSchema()")
+			label Save
+			i.fa.fa-save
+		button.btn.btn-sm.btn-default.delete(ng-click="deleteDocumentSchema()")
+			i.fa.fa-trash
 
 	table.attributes.table.table-hover.table-striped.table-condensed
 		thead
@@ -24,11 +35,19 @@
 				td
 					span(
 						editable-select="attribute.type" 
-						e-name="name" 
+						e-name="type" 
 						e-form="rowform" 
 						e-ng-options="value as key for (key, value) in attributeTypes" 
 						e-required=""
-						) {{attribute.type | dictionary:attributeTypes}}
+					) {{attribute.type | dictionary:attributeTypes}}
+					span.document-type(
+						ng-if="showDocumentSelection(attribute)"
+						editable-select="attribute.document_type" 
+						e-name="documenttype" 
+						e-form="rowform" 
+						e-ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas" 
+						e-required=""
+					) ({{getAttributeName(attribute.document_type)}})
 				td
 					form.form-buttons.form-inline(
 						editable-form="" 
