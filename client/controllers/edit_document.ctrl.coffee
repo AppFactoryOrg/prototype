@@ -6,12 +6,22 @@ angular.module('app-factory').factory 'EditDocumentModal', ->
 			'document': -> document
 			'documentSchema': -> documentSchema
 
-angular.module('app-factory').controller 'EditDocumentCtrl', ($scope, $rootScope, $meteor, $modalInstance, document, documentSchema, ATTRIBUTE_TYPES) ->
+angular.module('app-factory').controller 'EditDocumentCtrl', ($scope, $rootScope, $meteor, $modal, $modalInstance, document, documentSchema, LookupDocumentModal, ATTRIBUTE_TYPES, DocumentHelpers) ->
 	$scope.document = angular.copy(document)
 	$scope.documentSchema = documentSchema
-	$scope.attributes = $meteor.collection(Attributes, false)
+	$scope.attributes = Attributes.find('document_schema_id': documentSchema._id).fetch()
 
-	$meteor.subscribe('Attributes', document.document_schema_id).then ->
+	$scope.selectDocument = (attribute) ->
+		documentSchemaId = attribute.document_type
+		modal = $modal.open(new LookupDocumentModal({documentSchemaId}))
+		modal.result.then (document) ->
+			$scope.document.data[attribute._id] = document._id
+
+	$scope.clearDocument = (attribute) ->
+		$scope.document.data[attribute._id] = null
+
+	$scope.getDocumentDisplayName = (attribute) ->
+		DocumentHelpers.getDocumentDisplayName($scope.document, attribute)
 
 	$scope.submit = ->
 		$modalInstance.close( $scope.document )

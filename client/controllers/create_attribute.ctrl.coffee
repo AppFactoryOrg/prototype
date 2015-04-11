@@ -13,7 +13,8 @@ angular.module('app-factory').controller 'CreateAttributeCtrl', ($scope, $meteor
 	$scope.attribute =
 		'name': ''
 		'type': ATTRIBUTE_TYPES['Text']
-		'document_id': documentSchema['_id']
+		'document_schema_id': documentSchema['_id']
+		'blueprint_id': blueprint_id
 
 	$meteor.subscribe('DocumentSchemas', blueprint_id).then (handle) ->
 		$scope.$on '$destroy', -> handle?.stop()

@@ -44,6 +44,15 @@
 							step="0.01" 
 							ng-model="document.data[attribute._id]"
 						)
+					.input-group(ng-switch-when="4")
+						.input-group-addon
+							i.fa.fa-file-o
+						.form-control-static {{getDocumentDisplayName(attribute)}}
+						.input-group-addon
+							button.btn.btn-xs.btn-default(type="button" ng-click="selectDocument(attribute)")
+								i.fa.fa-search
+							button.btn.btn-xs.btn-default(type="button" ng-click="clearDocument(attribute)")
+								i.fa.fa-close
 				.col-lg-1
 
 	.modal-footer
