@@ -1,4 +1,4 @@
-.home
+.home(ng-controller="HomeCtrl")
 	.jumbotron
 		h1 AppFactory
 		.text-muted A super-awesome application development platform.
@@ -24,3 +24,7 @@
 	.alert.alert-tip(ng-show="currentUser")
 		i.fa.fa-info-circle
 		span To begin creating, go to Blueprints in the top menu.
+
+	hr/
+	button.btn.btn-primary(ng-click="hideTutorials()" ng-hide="$root.currentUser.hideTutorials")
+		label Hide Tutorial
