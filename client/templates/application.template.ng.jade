@@ -13,6 +13,12 @@
 				)
 					tab-heading {{documentSchema.name}}
 
+					.documents-header.clearfix
+						input.search-documents.form-control(type="text" ng-model="searchDocuments" placeholder="Search...")
+						button.add-document.btn.btn-md.btn-success(ng-click="addDocument()")
+							i.fa.fa-plus
+							span Add {{documentSchema.name}}
+
 					table.table.table-hover.table-striped.table-condensed
 						thead
 							tr
@@ -20,8 +26,8 @@
 								th(width="75")
 
 						tbody
-							tr(ng-repeat="document in documents")
-								td(ng-repeat="attribute in attributes") {{formatDocumentData(document, attribute)}}
+							tr(ng-repeat="document in documents | filter:searchDocuments")
+								td(ng-repeat="attribute in attributes") {{document.formattedData[attribute._id]}}
 								td
 									.btn-group.pull-right
 										button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
@@ -33,18 +39,4 @@
 								td(colspan="99")
 									.text-muted No Data Yet
 
-					button.add-document.btn.btn-success(ng-click="addDocument()")
-						i.fa.fa-plus
-						span Add {{documentSchema.name}}
-
-			//- 		h5 Document Schema
-			//- 		pre {{documentSchema| json}}
 					
-			//- 		h5 Attributes
-			//- 		pre {{attributes| json}}
-
-			//- 		h5 Documents
-			//- 		pre {{documents| json}}
-
-			//- h5 Application
-			//- pre {{application | json}}

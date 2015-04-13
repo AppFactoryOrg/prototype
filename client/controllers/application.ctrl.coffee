@@ -16,8 +16,12 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 	$meteor.autorun $scope, ->
 		documentSchema = $scope.getReactively('selectedDocumentSchema')
 		return unless documentSchema?
-		$scope.documents = Documents.find('document_schema_id': documentSchema._id).fetch()
 		$scope.attributes = Attributes.find('document_schema_id': documentSchema._id).fetch()
+		$scope.documents = Documents.find('document_schema_id': documentSchema._id).fetch()
+		$scope.documents.forEach (document) ->
+			document.formattedData = {}
+			$scope.attributes.forEach (attribute) ->
+				document.formattedData[attribute._id] = $scope.formatDocumentData(document, attribute)
 
 	$scope.selectDocumentSchema = (documentSchema) -> 
 		$scope.selectedDocumentSchema = documentSchema
