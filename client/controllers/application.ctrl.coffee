@@ -9,7 +9,7 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 		$scope.blueprintId = $scope.application.blueprint._id
 
 		$meteor.subscribe('DocumentSchemas', $scope.blueprintId).then ->
-			$scope.documentSchemas = DocumentSchemas.find().fetch()
+			$scope.documentSchemas = DocumentSchemas.find('blueprint_id': $scope.blueprintId).fetch()
 
 		$meteor.subscribe('Attributes', $scope.blueprintId)
 

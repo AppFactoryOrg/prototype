@@ -8,7 +8,7 @@ angular.module('app-factory').factory 'CreateAttributeModal', ->
 angular.module('app-factory').controller 'CreateAttributeCtrl', ($scope, $meteor, $modalInstance, $stateParams, documentSchema, ATTRIBUTE_TYPES) ->
 	blueprint_id = $stateParams.blueprint_id
 	
-	$scope.documentSchemas = $meteor.collection(DocumentSchemas, false)
+	$scope.documentSchemas = $meteor.collection -> DocumentSchemas.find('blueprint_id': blueprint_id)
 	$scope.attributeTypes = ATTRIBUTE_TYPES
 	$scope.attribute =
 		'name': ''
