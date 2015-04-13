@@ -7,6 +7,7 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor, $modal, $s
 	controller: ($scope) ->
 		$scope.blueprintId = $stateParams.blueprint_id
 		$scope.attributeTypes = ATTRIBUTE_TYPES
+		$scope.documentSchemas = $meteor.collection -> DocumentSchemas.find('blueprint_id': $scope.blueprintId)
 
 		$meteor.subscribe('Attributes', $scope.blueprintId)
 
