@@ -1,17 +1,17 @@
 .home(ng-controller="HomeCtrl")
 	.jumbotron
-		h1 AppFactory
-		.text-muted A super-awesome application development platform.
+		h1 App Factory
+		p The layman's tool for creating, designing, and delivering software applications.
 		br/
+		
 		.github
-			a(href="https://github.com/civilframe/AppFactory.Prototype" target="_blank")
+			a(href="https://github.com/AppFactoryOrg/prototype-frontend" target="_blank")
 				i.fa.fa-github
 				span GitHub
 		.website
 			a(href="http://app-factory.io" target="_blank")
 				i.fa.fa-globe
 				span Website
-
 		.twitter
 			a(href="http://twitter.com/appfactoryorg" target="_blank")
 				i.fa.fa-twitter
@@ -26,5 +26,5 @@
 		span To begin creating, go to Blueprints in the top menu.
 
 	hr/
-	button.btn.btn-primary(ng-click="hideTutorials()" ng-hide="$root.currentUser.hideTutorials")
+	button.btn.btn-default(ng-click="hideTutorials()" ng-hide="$root.currentUser.hideTutorials")
 		label Hide Tutorial

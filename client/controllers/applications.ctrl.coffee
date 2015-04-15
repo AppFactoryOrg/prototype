@@ -10,4 +10,5 @@ angular.module('app-factory').controller 'ApplicationsCtrl', ($scope, $meteor, $
 		$scope.applications.remove(application)
 
 	$scope.edit = (application) ->
-		$state.go('application', application_id: application['_id'])
+		url = $state.href('application', application_id: application['_id'])
+		window.open(url, '_blank')

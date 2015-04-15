@@ -12,29 +12,22 @@
 		span Try to think about Blueprints and Applications at a high level. If I create a Blueprint for a "To-Do List", I can use it to create one Application for a "Grocery List" and another Application for a "Safety Checklist". The possibilities are endless!
 
 	br/
-	button.btn.btn-sm.btn-primary(ng-click="create()")
+	button.btn.btn-sm.btn-info(ng-click="create()")
 		i.fa.fa-plus
 		label Add Blueprint
 
 	hr/
 
 	.blueprint-summary(ng-repeat="blueprint in blueprints")
-		.panel.panel-primary
-			.panel-heading
-				span
-					i.fa.fa-flask
-					span(ng-bind="blueprint.name")
+		.panel
+			.panel-body
+				.name(ng-bind="blueprint.name")
 
-				.btn-group.pull-right
-					button.btn.btn-xs.btn-default(ng-click="edit(blueprint)")
+				.controls.btn-group.pull-right
+					button.btn.btn-xs.btn-info(ng-click="edit(blueprint)")
 						i.fa.fa-pencil
 						label Edit
 					button.btn.btn-xs.btn-default(ng-click="delete(blueprint)")
-						i.fa.fa-close
+						i.fa.fa-trash
 
-			.panel-body
-				//- pre(ng-bind="blueprint | json")
-				.alert.alert-tip
-					i.fa.fa-info-circle
-					span This is a Blueprint describing a "{{blueprint.name}}" Application.
-
+				i.icon.fa.fa-flask

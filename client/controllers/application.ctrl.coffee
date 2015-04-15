@@ -2,11 +2,15 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 	$scope.applicationId = $stateParams.application_id
 	$scope.blueprintId = null
 	$scope.selectedDocumentSchema = null
+	$scope.theme = null
 
 	$meteor.subscribe('Documents', $scope.applicationId)
 	$meteor.subscribe('Applications').then ->
 		$scope.application = Applications.findOne($scope.applicationId)
+		$scope.theme = $scope.application.theme || 'paper'
 		$scope.blueprintId = $scope.application.blueprint._id
+
+		document.title = $scope.application.name
 
 		$meteor.subscribe('DocumentSchemas', $scope.blueprintId).then ->
 			$scope.documentSchemas = DocumentSchemas.find('blueprint_id': $scope.blueprintId).fetch()

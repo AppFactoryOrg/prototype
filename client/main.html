@@ -1,18 +1,9 @@
 <head>
-	<title>AppFactory Prototype</title>
-	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/paper/bootstrap.min.css" rel="stylesheet">
+	<title>App Factory Prototype</title>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.6.0/lodash.min.js"></script>
 </head>
 <body>
 	<div ng-app="app-factory" class="container">
-		<div class="navbar navbar-default">
-			<ul class="nav navbar-nav">
-				<li class="navbar-header"><a ui-sref="home" class="navbar-brand"><i class="fa fa-gear"></i><span> AppFactory</span></a></li>
-				<li><a ui-sref="blueprints" ng-if="currentUser">Blueprints</a></li>
-				<li><a ui-sref="applications" ng-if="currentUser">Applications</a></li>
-				<li><meteor-include src="loginButtons"></meteor-include></li>
-			</ul>
-		</div>
 		<div ui-view></div>
 	</div>
 </body>

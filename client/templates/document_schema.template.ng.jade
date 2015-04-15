@@ -2,16 +2,16 @@
 	form.form-inline(novalidate)
 		.form-group
 			label Name
-			input.form-control.name(type="text" placeholder="Enter a name" ng-model="documentSchema.name")
+			input.form-control.input-sm.name(type="text" placeholder="Enter a name" ng-model="documentSchema.name")
 		
 		.form-group
 			label Primary Attribute
-			select.form-control.primary-attribute(
+			select.form-control.input-sm.primary-attribute(
 				ng-options="attribute._id as attribute.name for attribute in attributes"
 				ng-model="documentSchema.primary_attribute_id"
 			)
 
-		button.btn.btn-sm.btn-primary.save(ng-click="saveDocumentSchema()")
+		button.btn.btn-sm.btn-success.save(ng-click="saveDocumentSchema()")
 			label Save
 			i.fa.fa-save
 		button.btn.btn-sm.btn-default.delete(ng-click="deleteDocumentSchema()")
@@ -56,13 +56,13 @@
 						ng-show="rowform.$visible" 
 					)
 						.btn-group.pull-right
-							button.btn.btn-xs.btn-primary(type="submit" ng-disabled="rowform.$waiting")
+							button.btn.btn-xs.btn-success(type="submit" ng-disabled="rowform.$waiting")
 								i.fa.fa-save
 							button.btn.btn-xs.btn-default(type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()")
 								i.fa.fa-close
 					.buttons(ng-show="!rowform.$visible")
 						.btn-group.pull-right
-							button.btn.btn-xs.btn-primary(ng-click="rowform.$show()")
+							button.btn.btn-xs.btn-success(ng-click="rowform.$show()")
 								i.fa.fa-pencil
 							button.btn.btn-xs.btn-default(ng-click="deleteAttribute(attribute)")
 								i.fa.fa-trash

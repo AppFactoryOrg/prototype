@@ -1,42 +1,45 @@
 .application(ng-controller="ApplicationCtrl")
-	.panel.panel-success
-		.panel-heading
-			span
-				i.fa.fa-gear
-				.name(ng-bind="application.name")
+	link(ng-href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/{{theme}}/bootstrap.min.css" rel="stylesheet" ng-if="theme")
+	.navbar.navbar-default(ng-show="theme")
+		ul.nav.navbar-nav
+			li.navbar-header
+				a.navbar-brand
+					i.fa.fa-cube
+					span {{application.name}}
+			li.document-schema-selector
+				tabset
+					tab(
+						ng-repeat="documentSchema in documentSchemas" 
+						select="selectDocumentSchema(documentSchema)"
+					)
+						tab-heading {{documentSchema.name}}s
+			li
+				meteor-include(src='loginButtons')
 
-		.panel-body
-			tabset
-				tab(
-					ng-repeat="documentSchema in documentSchemas" 
-					select="selectDocumentSchema(documentSchema)"
-				)
-					tab-heading {{documentSchema.name}}
+	.documents(ng-show="theme")
+		.documents-header.clearfix
+			input.search-documents.form-control(type="text" ng-model="searchDocuments" placeholder="Search...")
+			button.add-document.btn.btn-md.btn-success(ng-click="addDocument()")
+				i.fa.fa-plus
+				span Add {{selectedDocumentSchema.name}}
 
-					.documents-header.clearfix
-						input.search-documents.form-control(type="text" ng-model="searchDocuments" placeholder="Search...")
-						button.add-document.btn.btn-md.btn-success(ng-click="addDocument()")
-							i.fa.fa-plus
-							span Add {{documentSchema.name}}
+		table.table.table-hover.table-striped.table-condensed
+			thead
+				tr
+					th(ng-repeat="attribute in attributes") {{attribute.name}}
+					th(width="75")
+			tbody
+				tr(ng-repeat="document in documents | filter:searchDocuments")
+					td(ng-repeat="attribute in attributes") {{document.formattedData[attribute._id]}}
+					td
+						.btn-group.pull-right
+							button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
+								i.fa.fa-pencil
+							button.btn.btn-xs.btn-default(ng-click="deleteDocument(document)")
+								i.fa.fa-trash
 
-					table.table.table-hover.table-striped.table-condensed
-						thead
-							tr
-								th(ng-repeat="attribute in attributes") {{attribute.name}}
-								th(width="75")
+				tr(ng-hide="documents.length")
+					td(colspan="99")
+						.text-muted No Data Yet
 
-						tbody
-							tr(ng-repeat="document in documents | filter:searchDocuments")
-								td(ng-repeat="attribute in attributes") {{document.formattedData[attribute._id]}}
-								td
-									.btn-group.pull-right
-										button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
-											i.fa.fa-pencil
-										button.btn.btn-xs.btn-default(ng-click="deleteDocument(document)")
-											i.fa.fa-trash
-
-							tr(ng-hide="documents.length")
-								td(colspan="99")
-									.text-muted No Data Yet
-
-					
+				

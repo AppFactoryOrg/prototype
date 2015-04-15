@@ -11,26 +11,20 @@
 	br/
 	button.btn.btn-sm.btn-success(ng-click="create()")
 		i.fa.fa-plus
-		label Add application
+		label Add Application
 
 	hr/
 
 	.application-summary(ng-repeat="application in applications")
-		.panel.panel-success
-			.panel-heading
-				span
-					i.fa.fa-gear
-					span(ng-bind="application.name")
+		.panel
+			.panel-body
+				.name(ng-bind="application.name")
 
-				.btn-group.pull-right
-					button.btn.btn-xs.btn-default(ng-click="edit(application)")
-						i.fa.fa-folder-open-o
+				.controls.btn-group.pull-right
+					button.btn.btn-xs.btn-success(ng-click="edit(application)")
+						i.fa.fa-pencil
 						label Open
 					button.btn.btn-xs.btn-default(ng-click="delete(application)")
 						i.fa.fa-trash
 
-			.panel-body
-				//- pre(ng-bind="application | json")
-				.alert.alert-tip
-					i.fa.fa-info-circle
-					span This is an Application based on the "{{application.blueprint.name}}" Blueprint.
+				i.icon.fa.fa-gear

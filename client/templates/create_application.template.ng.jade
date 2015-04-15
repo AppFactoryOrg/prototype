@@ -3,23 +3,31 @@
 		h3.modal-title Create Application
 
 	.modal-body
-		form
-			.form-group
+		form.row
+			.form-group.col-sm-12
 				label Name
 				input.form-control(
 					type="text" 
 					ng-model="name"
 					autofocus
 				)
-			.form-group
+			.form-group.col-sm-12.col-md-6
 				label Blueprint
 				select.form-control(
 					ng-options="blueprint.name for blueprint in blueprints" 
 					ng-model="selectedBlueprint"
 				)
+			.form-group.col-sm-12.col-md-6
+				label Theme
+				select.form-control(
+					ng-options="theme.key as theme.name for theme in themes" 
+					ng-model="selectedTheme"
+				)
+
+			pre {{selectedTheme}}
 
 	.modal-footer
 		button.btn.btn-default(ng-click="$dismiss()") Cancel
-		button.btn.btn-primary(ng-click="submit()") 
+		button.btn.btn-success(ng-click="submit()") 
 			label Add 
 			i.fa.fa-chevron-right

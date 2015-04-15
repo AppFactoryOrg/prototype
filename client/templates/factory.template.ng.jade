@@ -1,0 +1,17 @@
+link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.css" rel="stylesheet")
+
+.factory
+	.navbar.navbar-default
+		ul.nav.navbar-nav
+			li.navbar-header
+				a.navbar-brand(ui-sref='factory.home')
+					i.fa.fa-gear
+					span App Factory
+			li
+				a(ui-sref='factory.blueprints', ng-if='currentUser') Blueprints
+			li
+				a(ui-sref='factory.applications', ng-if='currentUser') Applications
+			li
+				meteor-include(src='loginButtons')
+
+	div(ui-view='')
