@@ -4,10 +4,12 @@ angular.module('app-factory').controller 'ApplicationsCtrl', ($scope, $meteor, $
 	$scope.create = () ->
 		$modal.open(new CreateApplicationModal()).result.then (application) ->
 			$scope.applications.save(application)
-			
+			mixpanel.track('application_created')
+
 	$scope.delete = (application) ->
 		return unless confirm('Are you sure?')
 		$scope.applications.remove(application)
+		mixpanel.track('application_deleted')
 
 	$scope.edit = (application) ->
 		url = $state.href('application', application_id: application['_id'])

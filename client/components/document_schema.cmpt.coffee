@@ -26,11 +26,13 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor, $modal, $s
 		$scope.saveDocumentSchema = ->
 			$meteor.collection(DocumentSchemas).save($scope.documentSchema)
 			$scope.selectedDocumentSchema = null
+			mixpanel.track('documentSchema_updated')
 
 		$scope.deleteDocumentSchema = ->
 			return unless confirm('Are you sure?')
 			$meteor.collection(DocumentSchemas).remove($scope.documentSchema._id)
 			$scope.onDeleted()
+			mixpanel.track('documentSchema_deleted')
 
 		$scope.addAttribute = ->
 			documentSchema = $scope.documentSchema
@@ -38,11 +40,14 @@ angular.module('app-factory').directive 'afDocumentSchema', ($meteor, $modal, $s
 			modal = $modal.open(new CreateAttributeModal({documentSchema}))
 			modal.result.then (attribute) ->
 				$meteor.collection(Attributes).save(attribute)
+				mixpanel.track('documentAttribute_created')
 
 		$scope.saveAttribute = (attribute) ->
 			$meteor.collection(Attributes).save(attribute)
+			mixpanel.track('documentAttribute_updated')
 
 		$scope.deleteAttribute = (attribute) ->
 			return unless window.confirm('Are you sure?')
 			$meteor.collection(Attributes).remove(attribute)
+			mixpanel.track('documentAttribute_deleted')
 

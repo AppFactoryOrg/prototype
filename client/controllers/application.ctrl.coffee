@@ -48,6 +48,7 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 		modal = $modal.open(new CreateDocumentModal({documentSchema}))
 		modal.result.then (document) ->
 			$meteor.collection(Documents).save(document)
+			mixpanel.track('document_created')
 
 	$scope.editDocument = (document) ->
 		documentSchema = $scope.selectedDocumentSchema
@@ -55,7 +56,9 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 		modal = $modal.open(new EditDocumentModal({document, documentSchema}))
 		modal.result.then (document) ->
 			$meteor.collection(Documents).save(document)
+			mixpanel.track('document_updated')
 
 	$scope.deleteDocument = (document) ->
 		return unless confirm('Are you sure?')
 		$meteor.collection(Documents).remove(document)
+		mixpanel.track('document_deleted')

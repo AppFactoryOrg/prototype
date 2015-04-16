@@ -17,3 +17,4 @@ angular.module('app-factory').controller 'BlueprintCtrl', ($scope, $meteor, $mod
 		modal = $modal.open(new CreateDocumentSchemaModal({blueprint}))
 		modal.result.then (documentSchema) ->
 			$scope.documentSchemas.save(documentSchema)
+			mixpanel.track('documentSchema_created')
