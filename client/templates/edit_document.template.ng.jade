@@ -13,18 +13,21 @@
 				.col-lg-7
 					.input-group(ng-switch-default)
 						.input-group-addon
+							i.fa.fa-font
 						input.form-control(
 							type="text" 
 							ng-model="document.data[attribute._id]"
 						)
 					.input-group(ng-switch-when="0")
 						.input-group-addon
+							i.fa.fa-font
 						input.form-control(
 							type="text" 
 							ng-model="document.data[attribute._id]"
 						)
 					.input-group(ng-switch-when="1")
 						.input-group-addon
+							i.fa.fa-calculator
 						input.form-control(
 							type="number" 
 							ng-model="document.data[attribute._id]"
@@ -52,6 +55,33 @@
 							button.btn.btn-xs.btn-default(type="button" ng-click="selectDocument(attribute)")
 								i.fa.fa-search
 							button.btn.btn-xs.btn-default(type="button" ng-click="clearDocument(attribute)")
+								i.fa.fa-close
+					.input-group.image-upload(ng-switch-when="6")
+						.input-group-addon
+							i.fa.fa-image
+						.form-control-static 
+							cl-image.thumbnail.inline(
+								ng-if="document.data[attribute._id]"
+								public-id="{{document.data[attribute._id]}}"
+								width="250" 
+								crop="fit" 
+								quality="80"
+								format="jpg"
+							)
+						.input-group-addon
+							button.btn.btn-xs.btn-default(
+								ng-disabled="uploading"
+								type="button"
+								ng-file-select
+								ng-file-change="uploadImage(attribute, $files)"
+							)
+								i.fa.fa.fa-upload(ng-hide="uploading")
+								i.fa.fa.fa-refresh.fa-spin(ng-show="uploading")
+							button.btn.btn-xs.btn-default(
+								type="button"
+								ng-click="clearImage(attribute)"
+								ng-disabled="uploading"
+							)
 								i.fa.fa-close
 				.col-lg-1
 

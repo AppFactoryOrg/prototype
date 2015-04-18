@@ -6,10 +6,27 @@ angular.module('app-factory').factory 'EditDocumentModal', ->
 			'document': -> document
 			'documentSchema': -> documentSchema
 
-angular.module('app-factory').controller 'EditDocumentCtrl', ($scope, $rootScope, $meteor, $modal, $modalInstance, document, documentSchema, LookupDocumentModal, ATTRIBUTE_TYPES, DocumentHelpers) ->
+angular.module('app-factory').controller 'EditDocumentCtrl', ($scope, $rootScope, $meteor, $modal, $modalInstance, $upload, document, documentSchema, LookupDocumentModal, ATTRIBUTE_TYPES, DocumentHelpers) ->
 	$scope.document = angular.copy(document)
 	$scope.documentSchema = documentSchema
 	$scope.attributes = Attributes.find('document_schema_id': documentSchema._id).fetch()
+	$scope.uploading = false
+
+	$scope.uploadImage = (attribute, files) ->
+		return unless files.length > 0
+		$scope.uploading = true
+		upload = $upload.upload
+			url: "https://api.cloudinary.com/v1_1/" + $.cloudinary.config().cloud_name + "/upload"
+			file: files[0]
+			fields: {upload_preset: $.cloudinary.config().upload_preset}
+
+		upload.success (data, status, headers, config) ->
+			$scope.document.data[attribute['_id']] = data.public_id
+			$scope.uploading = false
+			$scope.$apply() unless $scope.$$phase
+
+	$scope.clearImage = (attribute) ->
+		$scope.document.data[attribute._id] = null
 
 	$scope.selectDocument = (attribute) ->
 		documentSchemaId = attribute.document_type

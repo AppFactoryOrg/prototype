@@ -3,6 +3,8 @@ angular.module 'app-factory', [
 	'ui.router'
 	'ui.bootstrap'
 	'xeditable'
+	'cloudinary'
+	'angularFileUpload'
 ]
 
 angular.module('app-factory').run (editableOptions, $rootScope) ->
@@ -19,3 +21,6 @@ angular.module('app-factory').run (editableOptions, $rootScope) ->
 
 	$rootScope.$on '$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) ->
 		mixpanel.track('navigated', {'route': toState.name})
+
+	$.cloudinary.config().cloud_name = 'appfactoryprototype'
+	$.cloudinary.config().upload_preset = 'vz1klqpv'

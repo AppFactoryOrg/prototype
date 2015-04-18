@@ -4,4 +4,5 @@ angular.module('app-factory').value 'ATTRIBUTE_TYPES', {
 	'Date': 	    '2'
 	'Currency':     '3'
 	'Document':     '4'
+	'Image':		'6'
 }
