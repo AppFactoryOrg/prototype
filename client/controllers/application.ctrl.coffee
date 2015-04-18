@@ -1,4 +1,4 @@
-angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $filter, $modal, $stateParams, CreateDocumentModal, EditDocumentModal, ATTRIBUTE_TYPES, DocumentHelpers) ->
+angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $filter, $modal, $stateParams, CreateDocumentModal, EditDocumentModal, ViewImageModal, ATTRIBUTE_TYPES, DocumentHelpers) ->
 	$scope.applicationId = $stateParams.application_id
 	$scope.blueprintId = null
 	$scope.selectedDocumentSchema = null
@@ -41,6 +41,9 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $f
 			when ATTRIBUTE_TYPES['Currency'] then $filter('currency')(value, '$', 2)
 			when ATTRIBUTE_TYPES['Document'] then DocumentHelpers.getDocumentDisplayName(document, attribute)
 			else value
+
+	$scope.zoomImage = (imageId) ->
+		$modal.open(new ViewImageModal({imageId}))
 
 	$scope.addDocument = ->
 		documentSchema = $scope.selectedDocumentSchema

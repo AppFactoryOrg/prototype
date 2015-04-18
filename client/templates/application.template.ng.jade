@@ -30,7 +30,18 @@
 					th(width="75")
 			tbody
 				tr(ng-repeat="document in documents | filter:searchDocuments")
-					td(ng-repeat="attribute in attributes") {{document.formattedData[attribute._id]}}
+					td(ng-repeat="attribute in attributes" ng-switch="attribute.type") 
+						span(ng-switch-default) {{document.formattedData[attribute._id]}}
+						span(ng-switch-when="6")
+							cl-image.document-image(
+								ng-if="document.data[attribute._id]"
+								public-id="{{document.data[attribute._id]}}"
+								height="60" 
+								crop="fit" 
+								quality="80"
+								format="jpg"
+								ng-click="zoomImage(document.data[attribute._id])"
+							)
 					td
 						.btn-group.pull-right
 							button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
