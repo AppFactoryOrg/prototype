@@ -8,9 +8,17 @@ link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.cs
 					i.fa.fa-gear
 					span App Factory
 			li
-				a(ui-sref='factory.blueprints', ng-if='currentUser') Blueprints
+				a(
+					ui-sref='factory.blueprints'
+					ui-sref-active="active"
+					ng-if='currentUser'
+				) Blueprints
 			li
-				a(ui-sref='factory.applications', ng-if='currentUser') Applications
+				a(
+					ui-sref='factory.applications' 
+					ui-sref-active="active" 
+					ng-if='currentUser'
+				) Applications
 			li
 				meteor-include(src='loginButtons')
 

@@ -1,0 +1,30 @@
+.blueprint-screens(ng-controller="BlueprintScreensCtrl")
+
+	.alert.alert-tip
+		i.fa.fa-info-circle
+		span Applications contain Screens. A Screen describes how a specific part of the Application appears to the user.
+		br/
+		i.fa.fa-info-circle
+		span Screens contain Views, which determine how Documents are displayed in the Screen.
+
+	.row
+		.col-sm-4
+			.list-group
+				a.list-group-item(
+						ng-repeat="screenSchema in screenSchemas" 
+						ng-click="selectScreenSchema(screenSchema)" 
+						ng-class="{'active': screenIsSelected(screenSchema)}"
+					)
+					i.fa.fa-th-large
+					span.name(ng-bind="screenSchema.name")
+
+			button.btn.btn-sm.btn-success.create(ng-click="createScreenSchema()")
+				i.fa.fa-plus
+				label Add Screen
+
+		.col-sm-8
+			af-screen-schema(
+				ng-if="selectedScreenSchema"
+				screen-schema="selectedScreenSchema"
+				on-deleted="deselectScreenSchema()"
+			)
