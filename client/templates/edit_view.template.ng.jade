@@ -1,0 +1,31 @@
+.edit-view
+	.modal-header
+		h3.modal-title Edit View
+
+	.modal-body
+		form.row(ng-submit="submit()" novalidate)
+			.form-group.col-sm-12
+				label Name
+				input.form-control(
+					type="text" 
+					ng-model="view.name"
+					autofocus
+				)
+			.form-group.col-sm-6
+				label Type
+				select.form-control(
+					ng-options="value as key for (key, value) in viewTypes"
+					ng-model="view.type"
+				)
+			.form-group.col-sm-6
+				label Document Type
+				select.form-control(
+					ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+					ng-model="view.document_type"
+				)
+
+	.modal-footer
+		button.btn.btn-default(ng-click="$dismiss()") Cancel
+		button.btn.btn-success(ng-click="submit()") 
+			label Create
+			i.fa.fa-chevron-right

@@ -9,6 +9,7 @@ angular.module('app-factory').controller 'CreateScreenSchemaCtrl', ($scope, $met
 	$scope.screenSchema =
 		'name': ''
 		'blueprint_id': blueprint['_id']
+		'layout': {container: 'vertical', children: []}
 
 	$scope.submit = ->
 		$modalInstance.close( $scope.screenSchema )
