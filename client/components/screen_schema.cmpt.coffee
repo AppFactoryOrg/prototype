@@ -1,4 +1,4 @@
-angular.module('app-factory').directive 'afScreenSchema', ($meteor, $modal, $stateParams, $compile, VIEW_TYPES, CreateViewModal) ->
+angular.module('app-factory').directive 'afScreenSchema', ($meteor, $modal, $stateParams, $compile, VIEW_TYPES, CreateViewModal, EditViewModal) ->
 	restrict: 'E'
 	templateUrl: 'client/templates/screen_schema.template.html'
 	scope:
@@ -9,7 +9,9 @@ angular.module('app-factory').directive 'afScreenSchema', ($meteor, $modal, $sta
 		$scope.blueprintId = $stateParams.blueprint_id
 		$scope.viewTypes = VIEW_TYPES
 
+		$meteor.subscribe('DocumentSchemas', $scope.blueprintId)
 		$meteor.subscribe('Views', $scope.blueprintId)
+
 		$meteor.autorun $scope, ->
 			screenSchema = $scope.getReactively('screenSchema')
 			return unless screenSchema?
@@ -38,13 +40,15 @@ angular.module('app-factory').directive 'afScreenSchema', ($meteor, $modal, $sta
 				$meteor.collection(Views).save(view)
 				mixpanel.track('screenView_created')
 
-		# $scope.editView = (view) ->
-		# 	modal = $modal.open(new EditViewModal({screenSchema}))
-		# 	modal.result.then (view) ->
-		# 		$meteor.collection(Views).save(view)
-		# 		mixpanel.track('screenView_updated')
+		$scope.editView = (view) ->
+			screenSchema = $scope.screenSchema
+			
+			modal = $modal.open(new EditViewModal({view, screenSchema}))
+			modal.result.then (view) ->
+				$meteor.collection(Views).save(view)
+				mixpanel.track('screenView_updated')
 
-		# $scope.deleteView = (view) ->
-		# 	return unless window.confirm('Are you sure?')
-		# 	$meteor.collection(Views).remove(view)
-		# 	mixpanel.track('screenView_deleted')
+		$scope.deleteView = (view) ->
+			return unless window.confirm('Are you sure?')
+			$meteor.collection(Views).remove(view)
+			mixpanel.track('screenView_deleted')

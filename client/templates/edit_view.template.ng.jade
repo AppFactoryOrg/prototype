@@ -1,6 +1,9 @@
 .edit-view
 	.modal-header
-		h3.modal-title Edit View
+		h3.modal-title
+			span(ng-if="createMode") Create
+			span(ng-hide="createMode") Edit
+			span View
 
 	.modal-body
 		form.row(ng-submit="submit()" novalidate)
@@ -27,5 +30,6 @@
 	.modal-footer
 		button.btn.btn-default(ng-click="$dismiss()") Cancel
 		button.btn.btn-success(ng-click="submit()") 
-			label Create
+			label(ng-if="createMode") Create
+			label(ng-hide="createMode") Save
 			i.fa.fa-chevron-right

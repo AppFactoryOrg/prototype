@@ -10,9 +10,9 @@ angular.module('app-factory').controller 'CreateViewCtrl', ($scope, $meteor, $mo
 	
 	$scope.documentSchemas = $meteor.collection -> DocumentSchemas.find('blueprint_id': blueprint_id)
 
-	$meteor.subscribe('DocumentSchemas', blueprint_id).then (handle) ->
-		$scope.$on '$destroy', -> handle?.stop()
-		
+	$meteor.subscribe('DocumentSchemas', blueprint_id);
+	
+	$scope.createMode = true
 	$scope.viewTypes = VIEW_TYPES
 	$scope.view =
 		'name': ''
