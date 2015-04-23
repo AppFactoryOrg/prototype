@@ -1,0 +1,5 @@
+.application-home
+	h2 {{application.name}}
+	p This application contains the following information:
+	ul
+		li(ng-repeat="documentSchema in documentSchemas") {{documentSchema.name}}s

@@ -2,7 +2,7 @@ angular.module('app-factory').factory 'LookupDocumentModal', ->
 	return ({documentSchemaId}) ->
 		templateUrl: 'client/templates/lookup_document.template.html'
 		controller: 'LookupDocumentCtrl'
-		size: 'large'
+		size: 'lg'
 		resolve:
 			'documentSchemaId': -> documentSchemaId
 
@@ -23,7 +23,11 @@ angular.module('app-factory').controller 'LookupDocumentCtrl', ($scope, $statePa
 			when ATTRIBUTE_TYPES['Number'] then $filter('number')(value, 2)
 			when ATTRIBUTE_TYPES['Date'] then $filter('date')(value, 'shortDate')
 			when ATTRIBUTE_TYPES['Currency'] then $filter('currency')(value, '$', 2)
-			else value
+			when ATTRIBUTE_TYPES['Document'] then DocumentHelpers.getDocumentDisplayName(document, attribute)
+			else value	
+
+		$scope.zoomImage = (imageId) ->
+			$modal.open(new ViewImageModal({imageId}))
 
 	$scope.choose = (document) ->
 		$modalInstance.close( document )

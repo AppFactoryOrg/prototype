@@ -8,6 +8,7 @@ angular.module('app-factory').factory 'CreateScreenSchemaModal', ->
 angular.module('app-factory').controller 'CreateScreenSchemaCtrl', ($scope, $meteor, $modalInstance, blueprint) ->
 	$scope.screenSchema =
 		'name': ''
+		'showInNav': true
 		'blueprint_id': blueprint['_id']
 		'layout': {container: 'vertical', children: []}
 

@@ -1,0 +1,10 @@
+.application-screen(ng-controller="ApplicationScreenCtrl")
+	.view(ng-repeat="view in views" ng-switch="view.type")
+		af-list-view(
+			ng-switch-when="0"
+			view="view"
+		)
+		af-table-view(
+			ng-switch-when="1"
+			view="view"
+		)

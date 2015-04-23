@@ -1,19 +1,20 @@
-.edit-document
-	.modal-header
-		h3.modal-title
-			span Lookup {{documentSchema.name}}
+.table-view
+	.documents
+		.documents-header.clearfix
+			input.search-documents.form-control(type="text" ng-model="searchDocuments" placeholder="Search...")
+			button.add-document.btn.btn-md.btn-success(ng-click="addDocument()")
+				i.fa.fa-plus
+				span Add {{documentSchema.name}}
 
-	.modal-body
 		table.table.table-hover.table-striped.table-condensed
 			thead
 				tr
 					th(ng-repeat="attribute in attributes") {{attribute.name}}
 					th(width="75")
-
 			tbody
-				tr(ng-repeat="document in documents")
+				tr(ng-repeat="document in documents | filter:searchDocuments")
 					td(ng-repeat="attribute in attributes" ng-switch="attribute.type") 
-						span(ng-switch-default) {{formatDocumentData(document, attribute)}}
+						span(ng-switch-default) {{document.formattedData[attribute._id]}}
 						span(ng-switch-when="6")
 							cl-image.document-image(
 								ng-if="document.data[attribute._id]"
@@ -26,13 +27,13 @@
 							)
 					td
 						.btn-group.pull-right
-							button.btn.btn-sm.btn-primary(ng-click="choose(document)")
-								label Choose
-								i.fa.fa-chevron-right
+							button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
+								i.fa.fa-pencil
+							button.btn.btn-xs.btn-default(ng-click="deleteDocument(document)")
+								i.fa.fa-trash
 
 				tr(ng-hide="documents.length")
 					td(colspan="99")
 						.text-muted No Data Yet
 
-	.modal-footer
-		button.btn.btn-default(ng-click="$dismiss()") Cancel
+				
