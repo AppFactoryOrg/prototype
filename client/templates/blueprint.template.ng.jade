@@ -1,5 +1,6 @@
 .blueprint(ng-controller="BlueprintCtrl")
-	.panel.panel-info
+	
+	.panel.panel-info.blueprint-header
 		.panel-heading
 			span
 				i.fa.fa-flask
@@ -8,33 +9,10 @@
 			.pull-right
 				.version(ng-bind="'v' + blueprint.version")
 
-	.alert.alert-tip
-		i.fa.fa-info-circle
-		span This is your Blueprint. The tabs below list the various parts of an Application that this Blueprint describes. For now, there are only Documents.
-		br/
-		i.fa.fa-info-circle
-		span Applications contain Documents. A Document describes a record of information in the Application.
-		br/
-		i.fa.fa-info-circle
-		span Documents have Attributes, which describe the information that Document can store. 
+	.nav.nav-tabs
+		li(ui-sref-active="active")
+			a(ui-sref="factory.blueprint.documents") Documents
+		li(ui-sref-active="active")
+			a(ui-sref="factory.blueprint.screens") Screens
 
-	.row
-		.col-sm-4
-			.list-group
-				a.list-group-item(
-						ng-repeat="documentSchema in documentSchemas" 
-						ng-click="selectDocumentSchema(documentSchema)" 
-						ng-class="{'active': documentIsSelected(documentSchema)}"
-					)
-					.name(ng-bind="documentSchema.name")
-
-			button.btn.btn-sm.btn-success.create(ng-click="createDocumentSchema()")
-				i.fa.fa-plus
-				label Add Document
-
-		.col-sm-8
-			af-document-schema(
-				ng-if="selectedDocumentSchema"
-				document-schema="selectedDocumentSchema"
-				on-deleted="deselectDocumentSchema()"
-			)
+	div(ui-view="")

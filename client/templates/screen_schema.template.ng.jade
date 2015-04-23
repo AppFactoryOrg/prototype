@@ -1,0 +1,30 @@
+.screen-schema.well.clearfix
+	form.form-inline(novalidate)
+		.form-group
+			label Name
+			input.form-control.input-sm.name(type="text" placeholder="Enter a name" ng-model="screenSchema.name")
+		
+		.form-group.show-in-nav
+			input.form-control(type="checkbox" ng-model="screenSchema.showInNav")
+			label Show in Navigation
+
+		button.btn.btn-sm.btn-success.save(ng-click="saveScreenSchema()")
+			label Save
+			i.fa.fa-save
+		button.btn.btn-sm.btn-default.delete(ng-click="deleteScreenSchema()")
+			i.fa.fa-trash
+
+		.views
+			.view-summary(ng-repeat="view in views")
+				h4 {{view.name}}
+				div Type: {{view.type | dictionary:viewTypes}}
+				div Document: {{getDocumentName(view.document_type)}}
+				.btn-group
+					button.btn.btn-xs.btn-success(ng-click="editView(view)")
+						i.fa.fa-pencil
+					button.btn.btn-xs.btn-default(ng-click="deleteView(view)")
+						i.fa.fa-trash
+
+	button.btn.btn-sm.btn-success.create(ng-click="addView()")
+		i.fa.fa-plus
+		label Add View

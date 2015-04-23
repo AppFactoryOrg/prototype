@@ -12,5 +12,5 @@ angular.module('app-factory').controller 'ApplicationsCtrl', ($scope, $meteor, $
 		mixpanel.track('application_deleted')
 
 	$scope.edit = (application) ->
-		url = $state.href('application', application_id: application['_id'])
+		url = $state.href('application.home', application_id: application['_id'])
 		window.open(url, '_blank')

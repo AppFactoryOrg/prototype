@@ -1,0 +1,35 @@
+.list-view
+	.documents
+		.documents-header.clearfix
+			input.search-documents.form-control(type="text" ng-model="searchDocuments" placeholder="Search...")
+			button.add-document.btn.btn-md.btn-success(ng-click="addDocument()")
+				i.fa.fa-plus
+				span Add {{documentSchema.name}}
+
+		.document-list-item.panel.panel-default(ng-repeat="document in documents | filter:searchDocuments")
+			.panel-body
+				.attributes.row
+					.attribute.clearfix.col-sm-3(ng-repeat="attribute in attributes")
+						label.name {{attribute.name}}
+						.value(ng-switch="attribute.type") 
+							span(ng-switch-default) {{document.formattedData[attribute._id]}}
+							span(ng-switch-when="6")
+								cl-image.document-image.img-thumbnail(
+									ng-if="document.data[attribute._id]"
+									public-id="{{document.data[attribute._id]}}"
+									height="60" 
+									crop="fit" 
+									quality="80"
+									format="jpg"
+									ng-click="zoomImage(document.data[attribute._id])"
+								)
+
+				.controls.btn-group.pull-right
+					button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
+						i.fa.fa-pencil
+					button.btn.btn-xs.btn-default(ng-click="deleteDocument(document)")
+						i.fa.fa-trash
+
+			.text-muted(ng-hide="documents.length") No Data Yet
+
+				

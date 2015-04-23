@@ -1,6 +1,9 @@
-.create-attribute
+.edit-view
 	.modal-header
-		h3.modal-title Create Attribute
+		h3.modal-title
+			span(ng-if="createMode") Create
+			span(ng-hide="createMode") Edit
+			span View
 
 	.modal-body
 		form.row(ng-submit="submit()" novalidate)
@@ -8,24 +11,25 @@
 				label Name
 				input.form-control(
 					type="text" 
-					ng-model="attribute.name"
+					ng-model="view.name"
 					autofocus
 				)
-			.form-group.col-sm-12(ng-class="{'col-sm-6': showDocumentSelection()}")
+			.form-group.col-sm-6
 				label Type
 				select.form-control(
-					ng-options="value as key for (key, value) in attributeTypes"
-					ng-model="attribute.type"
+					ng-options="value as key for (key, value) in viewTypes"
+					ng-model="view.type"
 				)
-			.form-group.col-sm-6(ng-if="showDocumentSelection()")
+			.form-group.col-sm-6
 				label Document Type
 				select.form-control(
 					ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
-					ng-model="attribute.document_type"
+					ng-model="view.document_type"
 				)
 
 	.modal-footer
 		button.btn.btn-default(ng-click="$dismiss()") Cancel
 		button.btn.btn-success(ng-click="submit()") 
-			label Create
+			label(ng-if="createMode") Create
+			label(ng-hide="createMode") Save
 			i.fa.fa-chevron-right

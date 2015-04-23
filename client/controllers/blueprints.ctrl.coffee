@@ -12,4 +12,4 @@ angular.module('app-factory').controller 'BlueprintsCtrl', ($scope, $modal, $met
 		mixpanel.track('blueprint_deleted')
 
 	$scope.edit = (blueprint) ->
-		$state.go('factory.blueprint', blueprint_id: blueprint['_id'])
+		$state.go('factory.blueprint.documents', blueprint_id: blueprint['_id'])

@@ -1,2 +1,2 @@
 Meteor.publish 'Blueprints', () ->
-	Blueprints.find('owner_id': @userId)
+	return Blueprints.find('owner_id': @userId)
