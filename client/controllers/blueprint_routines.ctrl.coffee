@@ -1,4 +1,4 @@
-angular.module('app-factory').controller 'BlueprintRoutinesCtrl', ($scope, $meteor, $modal, $stateParams, CreateRoutineModal, ROUTINE_TYPES) ->
+angular.module('app-factory').controller 'BlueprintRoutinesCtrl', ($scope, $meteor, $modal, $stateParams, CreateRoutineModal, EditRoutineModal, ROUTINE_TYPES) ->
 	$meteor.subscribe('Routines', $scope.blueprintId)
 
 	$scope.routines = $meteor.collection -> Routines.find('blueprint_id': $scope.blueprintId)
@@ -11,7 +11,10 @@ angular.module('app-factory').controller 'BlueprintRoutinesCtrl', ($scope, $mete
 			mixpanel.track('routine_created')
 
 	$scope.editRoutine = (routine) ->
-		$state.go('factory.blueprint.routine', {routine_id: routine['_id']})
+		modal = $modal.open(new EditRoutineModal({routine}))
+		modal.result.then (routine) ->
+			$meteor.collection(Routines).save(routine)
+			mixpanel.track('routine_updated')
 
 	$scope.deleteRoutine = (routine) ->
 		return unless confirm('Are you sure?')
