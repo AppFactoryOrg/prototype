@@ -1,0 +1,37 @@
+.create-routine
+	.modal-header
+		h3.modal-title Create Routine
+
+	.modal-body
+		form(ng-submit="submit()" novalidate)
+			.form-group.col-sm-12
+				label Name
+				input.form-control(
+					type="text" 
+					ng-model="routine.name"
+					autofocus
+				)
+			.form-group.col-sm-12
+				label Description
+				textarea.form-control(
+					ng-model="routine.description"
+					rows="5"
+				)
+			.form-group.col-sm-12(ng-class="{'col-sm-6': showDocumentSelection()}")
+				label Type
+				select.form-control(
+					ng-options="value as key for (key, value) in routineTypes"
+					ng-model="routine.type"
+				)
+			.form-group.col-sm-6(ng-if="showDocumentSelection()")
+				label Document Input Type
+				select.form-control(
+					ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+					ng-model="selectedDocumentSchemaId"
+				)
+
+	.modal-footer
+		button.btn.btn-default(ng-click="$dismiss()") Cancel
+		button.btn.btn-success(ng-click="submit()") 
+			label Create
+			i.fa.fa-chevron-right
