@@ -14,7 +14,7 @@
 	tabset(ng-if="loaded")
 		tab(heading="Workflow")
 			.routine-workflow
-				.toolkit
+				.toolkit(ng-hide="selectedService")
 					accordion(close-others="true")
 						//- accordion-group(heading="Inputs")
 						//- 	.service-template(ng-repeat="input in routine.inputs")
@@ -28,11 +28,42 @@
 							.service-template(ng-repeat="service in services" ng-click="addService(service)")
 								.service-badge(ng-style="{'background-color': service.color}")
 								.service-name {{service.name}}
-				
+
+				.service-configuration.panel.panel-default(ng-show="selectedService")
+					.panel-heading.clearfix
+						.service-name.pull-left {{selectedService.name}}
+						button.close.pull-right(type="button" ng-click="closeServiceConfig()") &times;
+					.panel-body(ng-switch="selectedService.serviceId")
+						div(ng-switch-when="value")
+							.form-group
+								label Value
+								textarea.form-control(
+									rows="5"
+									ng-model="selectedService.configuration.value"
+								)
+						div(ng-switch-default)
+							p No configuration options available.
+
 				div#workflow-canvas
-					.service(ng-repeat="service in routine.services" id="{{service.id}}" ng-class="service.class" ng-click="serviceClicked(service)")
-						.service-name {{service.name}}
-				
+					.service(
+						ng-repeat="service in routine.services"
+						id="{{service.id}}"
+						ng-class="service.class"
+						ng-switch="service.type"
+						ng-click="serviceClicked(service, $event)"
+					)
+						//- Start
+						div(ng-switch-when="1")
+							.service-name {{service.name}}
+
+						//- End
+						div(ng-switch-when="2")
+							.service-name {{service.name}}
+
+						div.clearfix(ng-switch-default)
+							.service-name.pull-left {{service.name}}
+							i.fa.fa-gear.edit-service.pull-right(ng-click="openServiceConfig(service)")
+							
 				.delete-toggle
 					input(type="checkbox" ng-model="mode.delete" ng-true-value="true" ng-false-value="false")
 					label &nbsp;Delete Mode

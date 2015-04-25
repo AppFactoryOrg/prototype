@@ -30,6 +30,9 @@
 			display: inline-block
 			margin-left: 5px
 
+	.service-configuration
+		+flex-to-size(250px)
+
 	.delete-toggle
 		position: absolute
 		top: 15px
@@ -81,9 +84,26 @@
 				padding-top: 17px
 
 			&.value
-				width: 70px
+				width: 80px
 				height: 30px
 				background-color: lighten(#70678E, 7%)
 				border: 3px solid lighten(#70678E, 20%)
 				padding-top: 3px
+
+				.edit-service
+					margin-top: -2px
+
+
+			.edit-service
+				margin: -8px -5px -5px -5px
+				padding: 5px
+				color: rgba(white, 0.65)
+
+				&:hover
+					color: white
+					background-color: rgba(white, 0.25)
+
+		.service-node-label
+			font-size: 10px
+			color: lighten(#2b3e50, 55%)
 

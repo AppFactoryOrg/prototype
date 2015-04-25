@@ -1,73 +1,12 @@
-angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICE_TYPES) ->
+angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICES, SERVICE_TYPES) ->
 
 	$scope.canvas = null
 	$scope.loaded = false
 	$scope.saving = false
 	$scope.routineDataTypes = ROUTINE_DATATYPES
 	$scope.mode = {'delete': false}
-	$scope.services = [
-		{ 
-			type: SERVICE_TYPES['Start']
-			name: 'Start'
-			class: 'start'
-			color: '#5cb85c'
-			nodes: [
-				{
-					name: 'out'
-					type: 'outflow'
-					position: 'Right'
-				}
-			]
-		}
-		{ 
-			type: SERVICE_TYPES['End']
-			name: 'End'
-			class: 'end'
-			color: '#d9534f'
-			nodes: [
-				{
-					name: 'in'
-					type: 'inflow'
-					position: 'Left'
-				}
-			]
-		}
-		{ 
-			type: SERVICE_TYPES['General']
-			name: 'Display Message'
-			color: '#2b3e50'
-			nodes: [
-				{
-					name: 'in'
-					type: 'inflow'
-					position: [0, 0.25, -1, 0]
-				}
-				{
-					name: 'out'
-					type: 'outflow'
-					position: [1, 0.25, 1, 0]
-				}
-				{
-					name: 'message'
-					type: 'input'
-					position: [0, 0.75, -1, 0]
-				}
-			]
-		}
-		{ 
-			type: SERVICE_TYPES['Value']
-			name: 'Value'
-			color: '#70678E'
-			class: 'value'
-			nodes: [
-				{
-					name: 'value'
-					type: 'output'
-					position: 'Right'
-				}
-			]
-		}
-	]
+	$scope.services = SERVICES
+	$scope.selectedService = null
 
 	# Setup canvas styles
 	$scope.outflowEndpointStyle = 
@@ -85,7 +24,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 					10
 					10
 				]
-				gap: 10
+				gap: 11
 				cornerRadius: 5
 				alwaysRespectStubs: true
 			}
@@ -133,21 +72,21 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 					10
 					10
 				]
-				gap: 10
+				gap: 8
 				cornerRadius: 5
 				alwaysRespectStubs: true
 			}
 		]
 		connectorStyle: 
 			lineWidth: 2
-			strokeStyle: '#5bc0de'
+			strokeStyle: '#a7a1ba'
 			joinstyle: 'round'
 		hoverPaintStyle: 
 			fillStyle: '#5bc0de'
 			strokeStyle: '#5bc0de'
 		connectorHoverStyle: 
 			lineWidth: 4
-			strokeStyle: '#5bc0de'
+			strokeStyle: '#a7a1ba'
 		dragOptions: {}
 
 	$scope.inputEndpointStyle = 
@@ -201,17 +140,33 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 			endpointStyle = $scope.outflowEndpointStyle if node.type is 'outflow'
 			endpointStyle = $scope.inputEndpointStyle if node.type is 'input'
 			endpointStyle = $scope.outputEndpointStyle if node.type is 'output'
-			anchor = {
+			additionalStyles = {
 				anchor: node.position
 				uuid: "#{service.id}_#{node.name}"
 			}
-			$scope.canvas.addEndpoint(service['id'], endpointStyle, anchor)
+			if node.label?
+				additionalStyles['overlays'] = [
+					[ "Label", { 
+						id: "#{service.id}_#{node.name}_label" 
+						label: node.label
+						location: node.labelPosition
+						cssClass: 'service-node-label'
+					}]
+				]
+			$scope.canvas.addEndpoint(service['id'], endpointStyle, additionalStyles)
 
 	$scope.setupConnection = (connection) ->
 		$scope.canvas.connect({uuids: [connection.fromNode, connection.toNode], editable: true})
 
-	$scope.serviceClicked = (service) ->
+	$scope.serviceClicked = (service, event) ->
 		$scope.removeService(service) if $scope.mode.delete
+		event.stopPropagation()
+
+	$scope.openServiceConfig = (service) ->
+		$scope.selectedService = service
+
+	$scope.closeServiceConfig = ->
+		$scope.selectedService = null
 
 	$scope.goBack = ->
 		return unless confirm("Are you sure? Changes may be lost.")
