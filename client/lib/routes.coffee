@@ -31,6 +31,10 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 			url: '/routines'
 			templateUrl: 'client/templates/blueprint_routines.template.html'
 
+		.state 'factory.blueprint.routine',
+			url: '/routine/:routine_id'
+			templateUrl: 'client/templates/edit_routine.template.html'
+
 		.state 'factory.applications',
 			url: '/applications'
 			templateUrl: 'client/templates/applications.template.html'

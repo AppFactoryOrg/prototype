@@ -1,23 +1,41 @@
-.edit-routine
-	.modal-header
-		h3.modal-title Edit Routine
+.edit-routine(ng-controller="EditRoutineCtrl")
+	button.btn.btn-sm.btn-link(ng-click="goBack()") 
+		i.fa.fa-arrow-left
+		label Back to Routines
+	.routine-header.clearfix
+		h3.title Edit Routine: "{{routine.name}}"
+		.controls.pull-right
+			button.btn.btn-sm.btn-default(ng-click="goBack()") Discard Changes
+			button.btn.btn-sm.btn-success(ng-click="save()" ng-disabled="saving") 
+				span(ng-hide="saving") Save
+				span(ng-show="saving") Saved
+				i.fa.fa-save
 
-	.modal-body
+	tabset(ng-if="loaded")
+		tab(heading="Workflow")
+			.routine-workflow
+				.toolkit
+					accordion(close-others="true")
+						//- accordion-group(heading="Inputs")
+						//- 	.service-template(ng-repeat="input in routine.inputs")
+						//- 		.service-name {{input.name}}
+						//- 	.text-muted(ng-hide="routine.inputs.length") No Inputs
+						//- accordion-group(heading="Outputs")
+						//- 	.service-template(ng-repeat="output in routine.outputs")
+						//- 		.service-name {{output.name}}
+						//- 	.text-muted(ng-hide="routine.outputs.length") No Outputs
+						accordion-group(heading="Services" is-open="true")
+							.service-template(ng-repeat="service in services" ng-click="addService(service)")
+								.service-badge(ng-style="{'background-color': service.color}")
+								.service-name {{service.name}}
+				
+				div#workflow-canvas
+					.service(ng-repeat="service in routine.services" id="{{service.id}}" ng-class="service.class" ng-click="serviceClicked(service)")
+						.service-name {{service.name}}
+				
+				.delete-toggle
+					input(type="checkbox" ng-model="mode.delete" ng-true-value="true" ng-false-value="false")
+					label &nbsp;Delete Mode
+		
+		//- tab(heading="Info")
 
-		tabset
-			tab(heading="Info")
-			tab(heading="Workflow" select="buildWorkflow()")
-				.routine-workflow
-					#workflow-canvas
-						#service-1.service Test
-						#service-2.service Test
-						#service-3.service Test
-						#service-4.service Test
-						#service-5.service.start Start
-						#service-6.service.end End
-
-	.modal-footer
-		button.btn.btn-default(ng-click="dismiss()") Cancel
-		button.btn.btn-success(ng-click="submit()") 
-			label Save
-			i.fa.fa-chevron-right

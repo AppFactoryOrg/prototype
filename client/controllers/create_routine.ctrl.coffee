@@ -18,6 +18,8 @@ angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, 
 		'type': ROUTINE_TYPES['General']
 		'inputs': []
 		'outputs': []
+		'services': []
+		'connections': []
 
 	$scope.showDocumentSelection = ->
 		$scope.routine['type'] is ROUTINE_TYPES['Document Action']

@@ -3,40 +3,87 @@
 .edit-routine
 
 	.routine-workflow
-		background-color: rgba(white, 0.9)
-		margin: 10px
+		+flex-container
+		position: relative
+
+	.toolkit
+		+flex-to-size(250px)
+
+		.service-template
+			padding: 7px
+			border: 1px solid lighten(#2b3e50, 5%)
+			background: lighten(#2b3e50, 10%)
+			cursor: pointer
+			margin-bottom: 5px
+
+			&:hover
+				background: lighten(#2b3e50, 15%)
+
+		.service-badge
+			height: 15px
+			width: 15px
+			border: 1px solid transparent
+			+border-radius(3px)
+			display: inline-block
+
+		.service-name
+			display: inline-block
+			margin-left: 5px
+
+	.delete-toggle
+		position: absolute
+		top: 15px
+		right: 20px
 
 	#workflow-canvas
+		+flex-to-fill()
+		margin-left: 15px
 		+no-select
+		+inner-box-shadow(0px, 0px, 10px, darken(#2b3e50, 13%))
+		background-color: lighten(#2b3e50, 2%)
+		border: 1px solid lighten(#2b3e50, 10%)
 		position: relative
 		width: 100%
-		min-height: 500px
+		height: 500px
+		overflow: auto
+		touch-action: none
 
 		.service
+			+border-radius(5px)
 			position: absolute
 			cursor: pointer
-			+border-radius(5px)
-			background-color: lighten(cyan, 40%)
-			border: 2px solid darken(cyan, 10%)
-			color: black
-			width: 170px
-			height: 75px
+			background-color: lighten(#2b3e50, 7%)
+			border: 3px solid lighten(#2b3e50, 30%)
+			width: 150px
+			height: 86px
 			padding: 10px
 			top: 100px
 			left: 100px
+			font-size: 12px
+			color: white
 
 			&.start
 				+border-radius(75px)
-				width: 75px
-				background-color: lighten(lime, 40%)
-				border: 2px solid darken(lime, 10%)
+				width: 60px
+				height: 60px
+				background-color: lighten(#5cb85c, 7%)
+				border: 3px solid lighten(#5cb85c, 20%)
 				text-align: center
-				padding-top: 25px
+				padding-top: 17px
 
 			&.end
 				+border-radius(75px)
-				width: 75px
-				background-color: lighten(red, 40%)
-				border: 2px solid darken(red, 10%)
+				width: 60px
+				height: 60px
+				background-color: lighten(#d9534f, 7%)
+				border: 3px solid lighten(#d9534f, 20%)
 				text-align: center
-				padding-top: 25px
+				padding-top: 17px
+
+			&.value
+				width: 70px
+				height: 30px
+				background-color: lighten(#70678E, 7%)
+				border: 3px solid lighten(#70678E, 20%)
+				padding-top: 3px
+
