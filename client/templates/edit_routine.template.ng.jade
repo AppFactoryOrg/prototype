@@ -6,7 +6,15 @@
 
 		tabset
 			tab(heading="Info")
-			tab(heading="Workflow")
+			tab(heading="Workflow" select="buildWorkflow()")
+				.routine-workflow
+					#workflow-canvas
+						#service-1.service Test
+						#service-2.service Test
+						#service-3.service Test
+						#service-4.service Test
+						#service-5.service.start Start
+						#service-6.service.end End
 
 	.modal-footer
 		button.btn.btn-default(ng-click="dismiss()") Cancel
