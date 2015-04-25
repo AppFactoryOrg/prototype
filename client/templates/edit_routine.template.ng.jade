@@ -49,15 +49,13 @@
 						ng-repeat="service in routine.services"
 						id="{{service.id}}"
 						ng-class="service.class"
-						ng-switch="service.type"
+						ng-switch="service.serviceId"
 						ng-click="serviceClicked(service, $event)"
 					)
-						//- Start
-						div(ng-switch-when="1")
+						div(ng-switch-when="start")
 							.service-name {{service.name}}
 
-						//- End
-						div(ng-switch-when="2")
+						div(ng-switch-when="end")
 							.service-name {{service.name}}
 
 						div.clearfix(ng-switch-default)

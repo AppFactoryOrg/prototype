@@ -3,3 +3,10 @@
 	p This application contains the following information:
 	ul
 		li(ng-repeat="documentSchema in documentSchemas") {{documentSchema.name}}s
+
+	p You can execute the following routines:
+	ul
+		li(ng-repeat="routine in routines")
+			label {{routine.name}} &nbsp;
+			button.btn.btn-xs.btn-primary(ng-click="executeRoutine(routine)")
+				i.fa.fa-play

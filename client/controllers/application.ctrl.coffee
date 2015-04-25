@@ -1,4 +1,4 @@
-angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q, $filter, $stateParams) ->
+angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q, $filter, $stateParams, RoutineHandler) ->
 	$scope.applicationId = $stateParams.application_id
 	$scope.blueprintId = null
 	$scope.theme = null
@@ -6,6 +6,9 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q
 	$scope.documentSchemas = null
 	$scope.screenSchemas = null
 	$scope.applicationIsLoaded = false
+
+	$scope.executeRoutine = (routine) -> 
+		RoutineHandler.execute(routine)
 
 	$meteor.subscribe('Applications').then ->
 		$scope.application = Applications.findOne($scope.applicationId)
@@ -20,8 +23,10 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q
 			$meteor.subscribe('Views', $scope.blueprintId)
 			$meteor.subscribe('Attributes', $scope.blueprintId)
 			$meteor.subscribe('Documents', $scope.applicationId)
+			$meteor.subscribe('Routines', $scope.blueprintId)
 		]).then ->
 			$scope.documentSchemas = DocumentSchemas.find('blueprint_id': $scope.blueprintId).fetch()
 			$scope.screenSchemas = ScreenSchemas.find('blueprint_id': $scope.blueprintId).fetch()
+			$scope.routines = Routines.find('blueprint_id': $scope.blueprintId).fetch()
 			$scope.applicationIsLoaded = true
 			$scope.$broadcast('APPLICATION_LOADED')

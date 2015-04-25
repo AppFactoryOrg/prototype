@@ -1,4 +1,4 @@
-angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICES, SERVICE_TYPES) ->
+angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICES) ->
 
 	$scope.canvas = null
 	$scope.loaded = false

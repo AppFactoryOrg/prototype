@@ -1,8 +1,7 @@
-angular.module('app-factory').factory 'SERVICES', (SERVICE_TYPES) ->
+angular.module('app-factory').factory 'SERVICES', ->
 	return [
 		{ 
 			serviceId: 'start'
-			type: SERVICE_TYPES['Start']
 			name: 'Start'
 			class: 'start'
 			color: '#5cb85c'
@@ -15,11 +14,10 @@ angular.module('app-factory').factory 'SERVICES', (SERVICE_TYPES) ->
 				}
 			]
 			execute: -> 
-				return {node: 'out'}
+				return [{node: 'out'}]
 		}
 		{ 
 			serviceId: 'end'
-			type: SERVICE_TYPES['End']
 			name: 'End'
 			class: 'end'
 			color: '#d9534f'
@@ -31,13 +29,11 @@ angular.module('app-factory').factory 'SERVICES', (SERVICE_TYPES) ->
 					position: 'Left'
 				}
 			]
-			execute: ({routine}) ->
-				routine.terminate()
-				return null
+			execute: ->
+				return [{terminate: true}]
 		}
 		{ 
 			serviceId: 'display_message'
-			type: SERVICE_TYPES['General']
 			name: 'Display Message'
 			color: '#2b3e50'
 			configuration: {}
@@ -61,13 +57,16 @@ angular.module('app-factory').factory 'SERVICES', (SERVICE_TYPES) ->
 				}
 			]
 			execute: ({inputs}) ->
+				throw new Error("Display Message service does not have any inputs") unless inputs?
+				throw new Error("Display Message service does not have a 'message' input") unless inputs.hasOwnProperty('message')
+				
 				message = inputs['message']
 				alert(message)
-				return {node: 'out'}
+				
+				return [{node: 'out'}]
 		}
 		{
 			serviceId: 'value'
-			type: SERVICE_TYPES['Value']
 			name: 'Value'
 			color: '#70678E'
 			class: 'value'
@@ -81,6 +80,10 @@ angular.module('app-factory').factory 'SERVICES', (SERVICE_TYPES) ->
 				}
 			]
 			execute: ({configuration}) ->
-				return {node: 'value', value: configuration['value']}
+				throw new Error("Display Message service does not have a configuration") unless configuration?
+				
+				value = configuration['value']
+				
+				return [{node: 'value', value: value}]
 		}
 	]
