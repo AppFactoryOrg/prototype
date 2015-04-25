@@ -3,6 +3,7 @@
 @Attributes = new Mongo.Collection('attributes')
 @ScreenSchemas = new Mongo.Collection('screen_schemas')
 @Views = new Mongo.Collection('views')
+@Routines = new Mongo.Collection('routines')
 
 @Applications = new Mongo.Collection('applications')
 @Documents = new Mongo.Collection('documents')
