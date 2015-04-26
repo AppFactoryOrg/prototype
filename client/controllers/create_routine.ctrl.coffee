@@ -22,7 +22,9 @@ angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, 
 		'connections': []
 
 	$scope.showDocumentSelection = ->
-		$scope.routine['type'] is ROUTINE_TYPES['Document Action']
+		return true if $scope.routine['type'] is ROUTINE_TYPES['Document Action']
+		return true if $scope.routine['type'] is ROUTINE_TYPES['Document Attribute']
+		return false
 
 	$scope.submit = ->
 		# Setup inputs and outputs
@@ -33,6 +35,19 @@ angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, 
 						'name': 'Document'
 						'type': ROUTINE_DATATYPES['Document']
 						'document_schema_id': $scope.selectedDocumentSchemaId
+					}
+				]
+			when ROUTINE_TYPES['Document Attribute']
+				$scope.routine.inputs = [
+					{ 
+						'name': 'Document'
+						'type': ROUTINE_DATATYPES['Document']
+						'document_schema_id': $scope.selectedDocumentSchemaId
+					}
+				]
+				$scope.routine.outputs = [
+					{
+						'name': 'Attribute'
 					}
 				]
 

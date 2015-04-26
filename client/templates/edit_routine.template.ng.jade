@@ -19,15 +19,13 @@
 						accordion-group(heading="Inputs")
 							.service-template(ng-repeat="service in inputServices" ng-click="addService(service)")
 								.service-badge(ng-style="{'background-color': service.color}")
-								.service-name 
-								span {{service.configuration.input.name}}
-								span &nbsp;|&nbsp;
-								span {{getDocumentName(service.configuration.input.document_schema_id)}}
+								.service-name {{service.configuration.input.name}}
 							p(ng-hide="inputServices.length") No Inputs
-						//- accordion-group(heading="Outputs")
-						//- 	.service-template(ng-repeat="output in routine.outputs")
-						//- 		.service-name {{output.name}}
-						//- 	p(ng-hide="routine.outputs.length") No Outputs
+						accordion-group(heading="Outputs")
+							.service-template(ng-repeat="service in outputServices" ng-click="addService(service)")
+								.service-badge(ng-style="{'background-color': service.color}")
+								.service-name {{service.configuration.output.name}}
+							p(ng-hide="outputServices.length") No Outputs
 						accordion-group(heading="Services" is-open="true")
 							.service-template(ng-repeat="service in services" ng-click="addService(service)")
 								.service-badge(ng-style="{'background-color': service.color}")
@@ -77,6 +75,8 @@
 							.service-subtitle.long(ng-switch-when="input")
 								span {{getDocumentName(service.configuration.input.document_schema_id)}}
 								span &nbsp;({{service.configuration.input.name}})
+							.service-subtitle.long(ng-switch-when="output")
+								span {{service.configuration.output.name}}
 							.service-subtitle.long(ng-switch-when="set_attribute") 
 								span {{getDocumentName(service.configuration.document_schema_id)}}
 								span &nbsp;.&nbsp;

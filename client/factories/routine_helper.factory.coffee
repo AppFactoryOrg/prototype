@@ -10,6 +10,17 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 
 		return inputServices
 
+	buildOutputServices: (routine) ->
+		outputTemplate = _.find(SERVICES, {'serviceId': 'output'})
+
+		outputServices = []
+		routine.outputs.forEach (output) ->
+			outputService = angular.copy(outputTemplate)
+			outputService.configuration['output'] = output
+			outputServices.push(outputService)
+
+		return outputServices
+
 	execute: (routine, routineInputs) ->
 		console.log("Starting execution of routine '#{routine.name}'", routine)
 
@@ -91,3 +102,16 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 		throw new Error('Routine has no Start service.') unless start?
 
 		processService(start)
+
+		# Get output data
+		return [] unless routine.outputs.length > 0
+
+		outputServices = _.filter(services, {'serviceId': 'output'})
+		outputData = []
+
+		routine.outputs.forEach (routineOutput) ->
+			outputService = _.find(outputServices, (outputService) -> outputService['configuration']['output']['name'] is routineOutput['name'])
+			outputValue = outputService['inputs']
+			outputData.push(outputValue)
+
+		return outputData

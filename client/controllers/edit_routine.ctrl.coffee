@@ -218,6 +218,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	$meteor.subscribe('Routines', $scope.blueprintId).then ->
 		$scope.routine = Routines.findOne($stateParams['routine_id'])
 		$scope.inputServices = RoutineHelper.buildInputServices($scope.routine)
+		$scope.outputServices = RoutineHelper.buildOutputServices($scope.routine)
 		$scope.loaded = true
 		$scope.buildWorkflow()
 

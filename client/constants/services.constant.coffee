@@ -68,6 +68,26 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				return [{node: 'value', value: value}]
 		}
 		#########################################################################################
+		# OUTPUT
+		#########################################################################################
+		{ 
+			serviceId: 'output'
+			name: 'Output'
+			class: 'output'
+			color: '#70678E'
+			configurable: false
+			configuration: {}
+			nodes: [
+				{
+					name: 'value'
+					type: 'input'
+					position: 'Left'
+				}
+			]
+			execute: -> 
+				return []
+		}
+		#########################################################################################
 		# VALUE
 		#########################################################################################
 		{
