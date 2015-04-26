@@ -16,14 +16,18 @@
 			.routine-workflow
 				.toolkit(ng-hide="selectedService")
 					accordion(close-others="true")
-						//- accordion-group(heading="Inputs")
-						//- 	.service-template(ng-repeat="input in routine.inputs")
-						//- 		.service-name {{input.name}}
-						//- 	.text-muted(ng-hide="routine.inputs.length") No Inputs
+						accordion-group(heading="Inputs")
+							.service-template(ng-repeat="service in inputServices" ng-click="addService(service)")
+								.service-badge(ng-style="{'background-color': service.color}")
+								.service-name 
+								span {{service.configuration.input.name}}
+								span &nbsp;|&nbsp;
+								span {{getDocumentName(service.configuration.input.document_schema_id)}}
+							p(ng-hide="inputServices.length") No Inputs
 						//- accordion-group(heading="Outputs")
 						//- 	.service-template(ng-repeat="output in routine.outputs")
 						//- 		.service-name {{output.name}}
-						//- 	.text-muted(ng-hide="routine.outputs.length") No Outputs
+						//- 	p(ng-hide="routine.outputs.length") No Outputs
 						accordion-group(heading="Services" is-open="true")
 							.service-template(ng-repeat="service in services" ng-click="addService(service)")
 								.service-badge(ng-style="{'background-color': service.color}")
@@ -41,6 +45,20 @@
 									rows="5"
 									ng-model="selectedService.configuration.value"
 								)
+						div(ng-switch-when="modify_attribute")
+							.form-group
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+							.form-group
+								label Attribute
+								select.form-control(
+									ng-options="attribute._id as attribute.name for attribute in attributes | filter:{'document_schema_id':selectedService.configuration.document_schema_id}"
+									ng-model="selectedService.configuration.attribute_id"
+								)
+
 						div(ng-switch-default)
 							p No configuration options available.
 
@@ -52,16 +70,18 @@
 						ng-switch="service.serviceId"
 						ng-click="serviceClicked(service, $event)"
 					)
-						div(ng-switch-when="start")
+						.service-body
+							i.fa.fa-gear.edit-service.pull-right(ng-click="openServiceConfig(service)" ng-if="service.configurable")
 							.service-name {{service.name}}
+							.service-subtitle(ng-switch-when="value") {{service.configuration.value}}
+							.service-subtitle.long(ng-switch-when="input")
+								span {{getDocumentName(service.configuration.input.document_schema_id)}}
+								span &nbsp;({{service.configuration.input.name}})
+							.service-subtitle.long(ng-switch-when="modify_attribute") 
+								span {{getDocumentName(service.configuration.document_schema_id)}}
+								span &nbsp;.&nbsp;
+								span {{getAttributeName(service.configuration.attribute_id)}}
 
-						div(ng-switch-when="end")
-							.service-name {{service.name}}
-
-						div.clearfix(ng-switch-default)
-							.service-name.pull-left {{service.name}}
-							i.fa.fa-gear.edit-service.pull-right(ng-click="openServiceConfig(service)")
-							
 				.delete-toggle
 					input(type="checkbox" ng-model="mode.delete" ng-true-value="true" ng-false-value="false")
 					label &nbsp;Delete Mode

@@ -1,5 +1,16 @@
-angular.module('app-factory').factory 'RoutineHandler', (SERVICES) ->
-	execute: (routine, inputs) ->
+angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
+	buildInputServices: (routine) ->
+		inputTemplate = _.find(SERVICES, {'serviceId': 'input'})
+
+		inputServices = []
+		routine.inputs.forEach (input) ->
+			inputService = angular.copy(inputTemplate)
+			inputService.configuration['input'] = input
+			inputServices.push(inputService)
+
+		return inputServices
+
+	execute: (routine, inputData) ->
 		console.log("Starting execution of routine '#{routine.name}'", routine)
 
 		services = angular.copy(routine.services)

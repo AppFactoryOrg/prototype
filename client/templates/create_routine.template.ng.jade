@@ -23,7 +23,7 @@
 					ng-options="value as key for (key, value) in routineTypes"
 					ng-model="routine.type"
 				)
-			.form-group.col-sm-6(ng-if="showDocumentSelection()")
+			.form-group.col-sm-6(ng-show="showDocumentSelection()")
 				label Document Input Type
 				select.form-control(
 					ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"

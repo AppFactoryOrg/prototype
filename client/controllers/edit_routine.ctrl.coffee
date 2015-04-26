@@ -1,17 +1,25 @@
-angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICES) ->
+angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, $q, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICES, RoutineHelper) ->
 
 	$scope.canvas = null
 	$scope.loaded = false
 	$scope.saving = false
 	$scope.routineDataTypes = ROUTINE_DATATYPES
 	$scope.mode = {'delete': false}
-	$scope.services = SERVICES
+	$scope.services = _.filter(SERVICES, (service) -> service.serviceId not in ['input', 'output'])
 	$scope.selectedService = null
 
+	$q.all([
+		$meteor.subscribe('DocumentSchemas', $scope.blueprintId)
+		$meteor.subscribe('Attributes', $scope.blueprintId)
+	]).then ->
+		$scope.documentSchemas = DocumentSchemas.find('blueprint_id': $scope.blueprintId).fetch()
+		$scope.attributes = Attributes.find('blueprint_id': $scope.blueprintId).fetch()
+	
 	# Setup canvas styles
 	$scope.outflowEndpointStyle = 
 		endpoint: 'Dot'
 		isSource: true
+		scope: 'execution'
 		paintStyle:
 			fillStyle: '#5bc0de'
 			strokeStyle: '#BAEAF8'
@@ -44,6 +52,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	$scope.inflowEndpointStyle = 
 		endpoint: 'Dot'
 		isTarget: true
+		scope: 'execution'
 		paintStyle:
 			fillStyle: '#5bc0de'
 			strokeStyle: '#BAEAF8'
@@ -60,6 +69,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	$scope.outputEndpointStyle = 
 		endpoint: 'Dot'
 		isSource: true
+		scope: 'information'
 		paintStyle:
 			fillStyle: '#837a9f'
 			strokeStyle: '#a7a1ba'
@@ -92,6 +102,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	$scope.inputEndpointStyle = 
 		endpoint: 'Dot'
 		isTarget: true
+		scope: 'information'
 		paintStyle:
 			fillStyle: '#837a9f'
 			strokeStyle: '#a7a1ba'
@@ -100,7 +111,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 		hoverPaintStyle: 
 			fillStyle: '#5bc0de'
 			strokeStyle: '#5bc0de'
-		maxConnections: 1
+		maxConnections: -1
 		dropOptions:
 			hoverClass: 'hover'
 			activeClass: 'active'
@@ -168,6 +179,14 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	$scope.closeServiceConfig = ->
 		$scope.selectedService = null
 
+	$scope.getAttributeName = (attributeId) ->
+		attribute = _.find($scope.attributes, {'_id': attributeId})
+		return attribute?.name
+
+	$scope.getDocumentName = (documentSchemaId) ->
+		documentSchema = _.find($scope.documentSchemas, {'_id': documentSchemaId})
+		return documentSchema?.name
+
 	$scope.goBack = ->
 		return unless confirm("Are you sure? Changes may be lost.")
 		$state.go('factory.blueprint.routines', {blueprint_id: $scope.blueprintId})
@@ -198,6 +217,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	# Initialize
 	$meteor.subscribe('Routines', $scope.blueprintId).then ->
 		$scope.routine = Routines.findOne($stateParams['routine_id'])
+		$scope.inputServices = RoutineHelper.buildInputServices($scope.routine)
 		$scope.loaded = true
 		$scope.buildWorkflow()
 
