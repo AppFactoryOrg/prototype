@@ -56,12 +56,16 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 					position: 'Right'
 				}
 			]
-			execute: -> 
-				throw new Error("Input service does not have a configuration") unless configuration?
+			execute: ({service, routineInputs})-> 
+				throw new Error("Input service does not have a configuration") unless service.configuration?
 				
-				input = configuration['input']
+				input = service.configuration['input']
+				inputData = _.find(routineInputs, {'name': input['name']})
+				throw new Error("Input service could not find required input data") unless inputData?
 
-				return [{node: 'value', value: input}]
+				value = inputData['value']
+
+				return [{node: 'value', value: value}]
 		}
 		#########################################################################################
 		# VALUE
@@ -116,11 +120,11 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 					labelPosition: [2.7, 0.55]
 				}
 			]
-			execute: ({inputs}) ->
-				throw new Error("Display Message service does not have any inputs") unless inputs?
-				throw new Error("Display Message service does not have a 'message' input") unless inputs.hasOwnProperty('message')
+			execute: ({service}) ->
+				throw new Error("Display Message service does not have any inputs") unless service.inputs?
+				throw new Error("Display Message service does not have a 'message' input") unless service.inputs.hasOwnProperty('message')
 				
-				message = inputs['message']
+				message = service.inputs['message']
 				alert(message)
 				
 				return [{node: 'out'}]
@@ -155,31 +159,33 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				{
 					name: 'updates'
 					type: 'input'
+					multiple: true
 					position: [0, 0.8, -1, 0]
 					label: 'Updates'
 					labelPosition: [2.5, 0.55]
 				}
 			]
-			execute: ({inputs, configuration}) ->
-				throw new Error("Update Document service does not have any inputs") unless inputs?
-				throw new Error("Update Document service does not have a 'document' input") unless inputs.hasOwnProperty('document')
-				throw new Error("Update Document service does not have a 'updates' input") unless inputs.hasOwnProperty('updates')
+			execute: ({service}) ->
+				throw new Error("Update Document service does not have any inputs") unless service.inputs?
+				throw new Error("Update Document service does not have a 'document' input") unless service.inputs.hasOwnProperty('document')
+				throw new Error("Update Document service does not have a 'updates' input") unless service.inputs.hasOwnProperty('updates')
 				
-				document = inputs['document']
-				updates = inputs['updates']
+				document = service.inputs['document']
+				updates = service.inputs['updates']
+				console.log document, updates
 				# Do updates
-				$meteor.collection(Documents).save(document)
+				# $meteor.collection(Documents).save(document)
 				
 				return [{node: 'out'}]
 		}
 		#########################################################################################
-		# MODIFY ATTRIBUTE
+		# SET ATTRIBUTE
 		#########################################################################################
 		{
-			serviceId: 'modify_attribute'
-			name: 'Modify Attribute'
+			serviceId: 'set_attribute'
+			name: 'Set Attribute'
 			color: '#70678E'
-			class: 'modify-attribute'
+			class: 'set-attribute'
 			configurable: true
 			configuration: 
 				document_schema_id: ''
@@ -196,14 +202,14 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 					position: 'Right'
 				}
 			]
-			execute: ({inputs, configuration}) ->
-				throw new Error("Modify Attribites service does not have any inputs") unless inputs?
-				throw new Error("Update Document service does not have a 'value' input") unless inputs.hasOwnProperty('value')
-				throw new Error("Modify Attribites service does not have a configuration") unless configuration?
+			execute: ({service}) ->
+				throw new Error("Set Attribite service does not have any inputs") unless service.inputs?
+				throw new Error("Set Attribite service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
+				throw new Error("Set Attribite service does not have a configuration") unless service.configuration?
 				
 				update = 
-					attribute_id: configuration['attribute_id']
-					value: inputs['value']
+					attribute_id: service.configuration['attribute_id']
+					value: service.inputs['value']
 
 				return [{node: 'value', value: update}]
 		}

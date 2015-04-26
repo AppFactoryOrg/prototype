@@ -45,7 +45,7 @@
 									rows="5"
 									ng-model="selectedService.configuration.value"
 								)
-						div(ng-switch-when="modify_attribute")
+						div(ng-switch-when="set_attribute")
 							.form-group
 								label Document Type
 								select.form-control(
@@ -77,7 +77,7 @@
 							.service-subtitle.long(ng-switch-when="input")
 								span {{getDocumentName(service.configuration.input.document_schema_id)}}
 								span &nbsp;({{service.configuration.input.name}})
-							.service-subtitle.long(ng-switch-when="modify_attribute") 
+							.service-subtitle.long(ng-switch-when="set_attribute") 
 								span {{getDocumentName(service.configuration.document_schema_id)}}
 								span &nbsp;.&nbsp;
 								span {{getAttributeName(service.configuration.attribute_id)}}

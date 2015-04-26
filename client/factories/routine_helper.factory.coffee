@@ -10,7 +10,7 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 
 		return inputServices
 
-	execute: (routine, inputData) ->
+	execute: (routine, routineInputs) ->
 		console.log("Starting execution of routine '#{routine.name}'", routine)
 
 		services = angular.copy(routine.services)
@@ -43,9 +43,7 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 			throw new Error('Routine cannot find matching service template.') unless serviceTemplate?
 
 			# Execute the service
-			inputs = service.inputs
-			configuration = service.configuration
-			results = serviceTemplate.execute({inputs, configuration})
+			results = serviceTemplate.execute({service, routineInputs})
 			throw new Error('Routine service execution results were empty.') if _.isEmpty(results)
 
 			results.forEach (result) ->
@@ -74,7 +72,11 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 						throw new Error('Routine cannot find input node of output service.') unless inputNode?
 						
 						outputService.inputs = [] unless outputService.inputs?
-						outputService.inputs[inputNode.name] = result['value']
+						if inputNode['multiple'] is true
+							outputService.inputs[inputNode['name']] = [] unless _.isArray(outputService.inputs[inputNode['name']])
+							outputService.inputs[inputNode['name']].push(result['value'])
+						else
+							outputService.inputs[inputNode['name']] = result['value']
 						console.log("Ending processing of service '#{service.name}'")
 
 					else if resultNode.type is 'outflow'
