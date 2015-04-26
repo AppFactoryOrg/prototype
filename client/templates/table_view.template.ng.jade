@@ -26,11 +26,18 @@
 								ng-click="zoomImage(document.data[attribute._id])"
 							)
 					td
-						.btn-group.pull-right
-							button.btn.btn-xs.btn-primary(ng-click="editDocument(document)")
+						.btn-group.pull-right(dropdown)
+							button.btn.btn-xs.btn-default(ng-if="routines.length" dropdown-toggle)
+								i.fa.fa-gear
+							button.btn.btn-xs.btn-default(ng-click="editDocument(document)")
 								i.fa.fa-pencil
 							button.btn.btn-xs.btn-default(ng-click="deleteDocument(document)")
 								i.fa.fa-trash
+							ul.dropdown-menu
+								li(ng-repeat="routine in routines")
+									a(ng-click="executeRoutine(routine, document)")
+										i.fa.fa-angle-double-right
+										span {{routine.name}}
 
 				tr(ng-hide="documents.length")
 					td(colspan="99")

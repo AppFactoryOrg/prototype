@@ -30,13 +30,14 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 			# Check for inputs and execute them first
 			inputNodes = _.filter(service.nodes, {'type': 'input'})
 			inputNodes.forEach (inputNode) ->
-				inputConnection = _.find(connections, {'toNode': "#{service.id}_#{inputNode.name}"})
-				throw new Error('Routine cannot find input connection.') unless inputConnection?
+				inputConnections = _.filter(connections, {'toNode': "#{service.id}_#{inputNode.name}"})
+				throw new Error('Routine cannot find input connections.') unless inputConnections?
 
-				inputService = _.find(services, {'id': inputConnection['fromNode'].split('_')[0]})
-				throw new Error('Routine cannot find input service.') unless inputService?
+				inputConnections.forEach (inputConnection) ->
+					inputService = _.find(services, {'id': inputConnection['fromNode'].split('_')[0]})
+					throw new Error('Routine cannot find input service.') unless inputService?
 
-				processService(inputService)
+					processService(inputService)
 
 			# Lookup the service template, which contains the execute function
 			serviceTemplate = _.find(SERVICES, {'serviceId': service['serviceId']})

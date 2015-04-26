@@ -85,10 +85,10 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 					position: 'Right'
 				}
 			]
-			execute: ({configuration}) ->
-				throw new Error("Value service does not have a configuration") unless configuration?
+			execute: ({service}) ->
+				throw new Error("Value service does not have a configuration") unless service.configuration?
 				
-				value = configuration['value']
+				value = service.configuration['value']
 				
 				return [{node: 'value', value: value}]
 		}
@@ -171,10 +171,12 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				throw new Error("Update Document service does not have a 'updates' input") unless service.inputs.hasOwnProperty('updates')
 				
 				document = service.inputs['document']
+				
 				updates = service.inputs['updates']
-				console.log document, updates
-				# Do updates
-				# $meteor.collection(Documents).save(document)
+				updates.forEach (update) ->
+					document['data'][update['attribute_id']] = update['value']
+
+				$meteor.collection(Documents).save(document)
 				
 				return [{node: 'out'}]
 		}
@@ -197,7 +199,7 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 					position: 'Left'
 				}
 				{
-					name: 'update'
+					name: 'output'
 					type: 'output'
 					position: 'Right'
 				}
@@ -207,10 +209,10 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				throw new Error("Set Attribite service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
 				throw new Error("Set Attribite service does not have a configuration") unless service.configuration?
 				
-				update = 
+				value = 
 					attribute_id: service.configuration['attribute_id']
 					value: service.inputs['value']
 
-				return [{node: 'value', value: update}]
+				return [{node: 'output', value: value}]
 		}
 	]
