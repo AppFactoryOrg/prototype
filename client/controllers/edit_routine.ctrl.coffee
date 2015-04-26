@@ -13,10 +13,10 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 		endpoint: 'Dot'
 		isSource: true
 		paintStyle:
-			fillStyle: '#75c375'
-			strokeStyle: '#a3d7a3'
+			fillStyle: '#5bc0de'
+			strokeStyle: '#BAEAF8'
 			lineWidth: 2
-			radius: 7
+			radius: 5
 		connector: [
 			'Flowchart'
 			{
@@ -45,9 +45,9 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 		endpoint: 'Dot'
 		isTarget: true
 		paintStyle:
-			fillStyle: '#df706c'
-			strokeStyle: '#eba5a3'
-			radius: 7
+			fillStyle: '#5bc0de'
+			strokeStyle: '#BAEAF8'
+			radius: 5
 			lineWidth: 2
 		hoverPaintStyle: 
 			fillStyle: '#5bc0de'
