@@ -47,8 +47,10 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 			name: 'Input'
 			class: 'input'
 			color: '#70678E'
-			configurable: false
-			configuration: {}
+			configurable: true
+			configuration:
+				name: ''
+				type: null
 			nodes: [
 				{
 					name: 'value'
@@ -59,8 +61,7 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 			execute: ({service, routineInputs})-> 
 				throw new Error("Input service does not have a configuration") unless service.configuration?
 				
-				input = service.configuration['input']
-				inputData = _.find(routineInputs, {'name': input['name']})
+				inputData = _.find(routineInputs, {'name': service.configuration['name']})
 				throw new Error("Input service could not find required input data") unless inputData?
 
 				value = inputData['value']
@@ -75,8 +76,10 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 			name: 'Output'
 			class: 'output'
 			color: '#70678E'
-			configurable: false
-			configuration: {}
+			configurable: true
+			configuration:
+				name: ''
+				type: null
 			nodes: [
 				{
 					name: 'value'

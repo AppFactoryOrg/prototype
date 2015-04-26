@@ -15,18 +15,9 @@
 		tab(heading="Workflow")
 			.routine-workflow
 				.toolkit(ng-hide="selectedService")
-					accordion(close-others="true")
-						accordion-group(heading="Inputs")
-							.service-template(ng-repeat="service in inputServices" ng-click="addService(service)")
-								.service-badge(ng-style="{'background-color': service.color}")
-								.service-name {{service.configuration.input.name}}
-							p(ng-hide="inputServices.length") No Inputs
-						accordion-group(heading="Outputs")
-							.service-template(ng-repeat="service in outputServices" ng-click="addService(service)")
-								.service-badge(ng-style="{'background-color': service.color}")
-								.service-name {{service.configuration.output.name}}
-							p(ng-hide="outputServices.length") No Outputs
-						accordion-group(heading="Services" is-open="true")
+					.panel.panel-default
+						.panel-heading Services
+						.panel-body
 							.service-template(ng-repeat="service in services" ng-click="addService(service)")
 								.service-badge(ng-style="{'background-color': service.color}")
 								.service-name {{service.name}}
@@ -36,6 +27,44 @@
 						.service-name.pull-left {{selectedService.name}}
 						button.close.pull-right(type="button" ng-click="closeServiceConfig()") &times;
 					.panel-body(ng-switch="selectedService.serviceId")
+						div(ng-switch-when="input")
+							.form-group
+								label Name
+								input.form-control(
+									type="text"
+									ng-model="selectedService.configuration.name"
+								)
+							.form-group
+								label Type
+								select.form-control(
+									ng-options="value as key for (key, value) in dataTypes"
+									ng-model="selectedService.configuration.type"
+								)
+							.form-group(ng-show="showConfigurationDocumentSelection(selectedService)")
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+						div(ng-switch-when="output")
+							.form-group
+								label Name
+								input.form-control(
+									type="text"
+									ng-model="selectedService.configuration.name"
+								)
+							.form-group
+								label Type
+								select.form-control(
+									ng-options="value as key for (key, value) in dataTypes"
+									ng-model="selectedService.configuration.type"
+								)
+							.form-group(ng-show="showConfigurationDocumentSelection(selectedService)")
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
 						div(ng-switch-when="value")
 							.form-group
 								label Value
@@ -73,10 +102,11 @@
 							.service-name {{service.name}}
 							.service-subtitle(ng-switch-when="value") {{service.configuration.value}}
 							.service-subtitle.long(ng-switch-when="input")
-								span {{getDocumentName(service.configuration.input.document_schema_id)}}
-								span &nbsp;({{service.configuration.input.name}})
+								span {{service.configuration.name}}
+								span &nbsp;({{service.configuration.type | dictionary:dataTypes}})
 							.service-subtitle.long(ng-switch-when="output")
-								span {{service.configuration.output.name}}
+								span {{service.configuration.name}}
+								span &nbsp;({{service.configuration.type | dictionary:dataTypes}})
 							.service-subtitle.long(ng-switch-when="set_attribute") 
 								span {{getDocumentName(service.configuration.document_schema_id)}}
 								span &nbsp;.&nbsp;
@@ -85,6 +115,8 @@
 				.delete-toggle
 					input(type="checkbox" ng-model="mode.delete" ng-true-value="true" ng-false-value="false")
 					label &nbsp;Delete Mode
+
+		pre {{routine | json}}
 		
 		//- tab(heading="Info")
 

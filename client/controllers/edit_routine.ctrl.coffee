@@ -3,9 +3,9 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	$scope.canvas = null
 	$scope.loaded = false
 	$scope.saving = false
-	$scope.routineDataTypes = ROUTINE_DATATYPES
+	$scope.dataTypes = ROUTINE_DATATYPES
 	$scope.mode = {'delete': false}
-	$scope.services = _.filter(SERVICES, (service) -> service.serviceId not in ['input', 'output'])
+	$scope.services = SERVICES
 	$scope.selectedService = null
 
 	$q.all([
@@ -187,6 +187,10 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 		documentSchema = _.find($scope.documentSchemas, {'_id': documentSchemaId})
 		return documentSchema?.name
 
+	$scope.showConfigurationDocumentSelection = (selectedService) ->
+		return true if selectedService['configuration']['type'] is ROUTINE_DATATYPES['Document']
+		return false
+
 	$scope.goBack = ->
 		return unless confirm("Are you sure? Changes may be lost.")
 		$state.go('factory.blueprint.routines', {blueprint_id: $scope.blueprintId})
@@ -206,6 +210,12 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 				fromNode: ids[0]
 				toNode: ids[1]
 
+		inputServices = _.filter($routine.services, {'serviceId': 'output'})
+		$scope.routine.inputs = _.pluck(inputServices)
+
+		outputServices = _.filter($routine.services, {'serviceId': 'output'})
+		$scope.routine.outputs = _.pluck(outputServices)
+
 		$meteor.collection(Routines).save($scope.routine)
 		mixpanel.track('routine_updated')
 
@@ -217,8 +227,6 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 	# Initialize
 	$meteor.subscribe('Routines', $scope.blueprintId).then ->
 		$scope.routine = Routines.findOne($stateParams['routine_id'])
-		$scope.inputServices = RoutineHelper.buildInputServices($scope.routine)
-		$scope.outputServices = RoutineHelper.buildOutputServices($scope.routine)
 		$scope.loaded = true
 		$scope.buildWorkflow()
 

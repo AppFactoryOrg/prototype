@@ -16,6 +16,7 @@ angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, 
 		'name': ''
 		'description': ''
 		'type': ROUTINE_TYPES['General']
+		'document_schema_id': null
 		'inputs': []
 		'outputs': []
 		'services': []
@@ -30,25 +31,8 @@ angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, 
 		# Setup inputs and outputs
 		switch $scope.routine['type']
 			when ROUTINE_TYPES['Document Action']
-				$scope.routine.inputs = [
-					{ 
-						'name': 'Document'
-						'type': ROUTINE_DATATYPES['Document']
-						'document_schema_id': $scope.selectedDocumentSchemaId
-					}
-				]
+				$scope.routine['document_schema_id'] = $scope.selectedDocumentSchemaId
 			when ROUTINE_TYPES['Document Attribute']
-				$scope.routine.inputs = [
-					{ 
-						'name': 'Document'
-						'type': ROUTINE_DATATYPES['Document']
-						'document_schema_id': $scope.selectedDocumentSchemaId
-					}
-				]
-				$scope.routine.outputs = [
-					{
-						'name': 'Attribute'
-					}
-				]
+				$scope.routine['document_schema_id'] = $scope.selectedDocumentSchemaId
 
 		$modalInstance.close($scope.routine)

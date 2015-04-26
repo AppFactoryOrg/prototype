@@ -48,7 +48,7 @@ angular.module('app-factory').controller 'DocumentViewCtrl', ($scope, $meteor, $
 		$scope.attributes = Attributes.find('document_schema_id': $scope.documentSchema['_id']).fetch()
 		$scope.routines = Routines.find(
 			'type': ROUTINE_TYPES['Document Action']
-			'inputs.document_schema_id': $scope.documentSchema['_id']
+			'document_schema_id': $scope.documentSchema['_id']
 		).fetch()
 		$scope.documents = Documents.find('document_schema_id': $scope.documentSchema['_id']).fetch()
 		$scope.documents.forEach (document) ->
