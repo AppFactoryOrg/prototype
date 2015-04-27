@@ -210,11 +210,11 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 				fromNode: ids[0]
 				toNode: ids[1]
 
-		inputServices = _.filter($routine.services, {'serviceId': 'output'})
-		$scope.routine.inputs = _.pluck(inputServices)
+		inputServices = _.filter($scope.routine.services, {'serviceId': 'input'})
+		$scope.routine.inputs = _.pluck(inputServices, 'configuration')
 
-		outputServices = _.filter($routine.services, {'serviceId': 'output'})
-		$scope.routine.outputs = _.pluck(outputServices)
+		outputServices = _.filter($scope.routine.services, {'serviceId': 'output'})
+		$scope.routine.outputs = _.pluck(outputServices, 'configuration')
 
 		$meteor.collection(Routines).save($scope.routine)
 		mixpanel.track('routine_updated')
