@@ -116,6 +116,40 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				return [{node: 'value', value: value}]
 		}
 		#########################################################################################
+		# DEFINE VARIABLE
+		#########################################################################################
+		{
+			serviceId: 'define_variable'
+			name: 'Define Variable'
+			color: '#70678E'
+			class: 'define-variable'
+			configurable: true
+			configuration: 
+				name: ''
+			nodes: [
+				{
+					name: 'value'
+					type: 'input'
+					position: 'Left'
+				}
+				{
+					name: 'output'
+					type: 'output'
+					position: 'Right'
+				}
+			]
+			execute: ({service}) ->
+				throw new Error("Get Attribite service does not have any inputs") unless service.inputs?
+				throw new Error("Get Attribite service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
+				throw new Error("Get Attribite service does not have a configuration") unless service.configuration?
+				
+				value =
+					name: service.configuration['name']				
+					value: service.inputs['value']
+
+				return [{node: 'output', value: value}]
+		}
+		#########################################################################################
 		# SET ATTRIBUTE
 		#########################################################################################
 		{
@@ -147,6 +181,41 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				value = 
 					attribute_id: service.configuration['attribute_id']
 					value: service.inputs['value']
+
+				return [{node: 'output', value: value}]
+		}
+		#########################################################################################
+		# GET ATTRIBUTE
+		#########################################################################################
+		{
+			serviceId: 'get_attribute'
+			name: 'Get Attribute'
+			color: '#70678E'
+			class: 'get-attribute'
+			configurable: true
+			configuration: 
+				attribute_id: ''
+				document_schema_id: ''
+			nodes: [
+				{
+					name: 'document'
+					type: 'input'
+					position: 'Left'
+				}
+				{
+					name: 'output'
+					type: 'output'
+					position: 'Right'
+				}
+			]
+			execute: ({service}) ->
+				throw new Error("Get Attribite service does not have any inputs") unless service.inputs?
+				throw new Error("Get Attribite service does not have a 'document' input") unless service.inputs.hasOwnProperty('document')
+				throw new Error("Get Attribite service does not have a configuration") unless service.configuration?
+				
+				document = service.inputs['document']
+				attribute_id = service.configuration['attribute_id']
+				value = document['data'][attribute_id]
 
 				return [{node: 'output', value: value}]
 		}
@@ -237,5 +306,63 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				$meteor.collection(Documents).save(document)
 				
 				return [{node: 'out'}]
+		}
+		#########################################################################################
+		# MATH
+		#########################################################################################
+		{ 
+			serviceId: 'math'
+			name: 'Math'
+			color: '#2b3e50'
+			configurable: false
+			configuration: {}
+			nodes: [
+				{
+					name: 'in'
+					type: 'inflow'
+					position: [0, 0.25, -1, 0]
+				}
+				{
+					name: 'out'
+					type: 'outflow'
+					position: [1, 0.25, 1, 0]
+				}
+				{
+					name: 'expression'
+					type: 'input'
+					position: [0, 0.6, -1, 0]
+					label: 'Expression'
+					labelPosition: [2.8, 0.55]
+				}
+				{
+					name: 'variables'
+					type: 'input'
+					multiple: true
+					position: [0, 0.8, -1, 0]
+					label: 'Variables'
+					labelPosition: [2.6, 0.55]
+				}
+				{
+					name: 'result'
+					type: 'output'
+					multiple: true
+					position: [1, 0.5, 1, 0]
+					label: 'Result'
+					labelPosition: [-1.2, 0.55]
+				}
+			]
+			execute: ({service}) ->
+				throw new Error("Update Document service does not have any inputs") unless service.inputs?
+				throw new Error("Update Document service does not have a 'expression' input") unless service.inputs.hasOwnProperty('expression')
+				throw new Error("Update Document service does not have a 'variables' input") unless service.inputs.hasOwnProperty('variables')
+				
+				expression = service.inputs['expression']
+				variables = service.inputs['variables']
+				variables.forEach (variable) ->
+					expression = expression.replace(variable['name'], variable['value'])
+
+				value = math.eval(expression)
+
+				return [{node: 'out'}, {node: 'result', value: value}]
 		}
 	]

@@ -70,6 +70,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 		endpoint: 'Dot'
 		isSource: true
 		scope: 'information'
+		maxConnections: -1
 		paintStyle:
 			fillStyle: '#837a9f'
 			strokeStyle: '#a7a1ba'

@@ -72,7 +72,27 @@
 									rows="5"
 									ng-model="selectedService.configuration.value"
 								)
+						div(ng-switch-when="define_variable")
+							.form-group
+								label Name
+								input.form-control(
+									type="text"
+									ng-model="selectedService.configuration.name"
+								)
 						div(ng-switch-when="set_attribute")
+							.form-group
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+							.form-group
+								label Attribute
+								select.form-control(
+									ng-options="attribute._id as attribute.name for attribute in attributes | filter:{'document_schema_id':selectedService.configuration.document_schema_id}"
+									ng-model="selectedService.configuration.attribute_id"
+								)
+						div(ng-switch-when="get_attribute")
 							.form-group
 								label Document Type
 								select.form-control(
@@ -107,7 +127,13 @@
 							.service-subtitle.long(ng-switch-when="output")
 								span {{service.configuration.name}}
 								span &nbsp;({{service.configuration.type | dictionary:dataTypes}})
+							.service-subtitle.long(ng-switch-when="define_variable")
+								span {{service.configuration.name}}
 							.service-subtitle.long(ng-switch-when="set_attribute") 
+								span {{getDocumentName(service.configuration.document_schema_id)}}
+								span &nbsp;.&nbsp;
+								span {{getAttributeName(service.configuration.attribute_id)}}
+							.service-subtitle.long(ng-switch-when="get_attribute") 
 								span {{getDocumentName(service.configuration.document_schema_id)}}
 								span &nbsp;.&nbsp;
 								span {{getAttributeName(service.configuration.attribute_id)}}
