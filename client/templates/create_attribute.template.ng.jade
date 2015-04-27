@@ -11,7 +11,7 @@
 					ng-model="attribute.name"
 					autofocus
 				)
-			.form-group.col-sm-12(ng-class="{'col-sm-6': showDocumentSelection()}")
+			.form-group.col-sm-12(ng-class="{'col-sm-6': showDocumentSelection() || showRoutineSelection()}")
 				label Type
 				select.form-control(
 					ng-options="value as key for (key, value) in attributeTypes"
@@ -22,6 +22,12 @@
 				select.form-control(
 					ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
 					ng-model="attribute.document_type"
+				)
+			.form-group.col-sm-6(ng-if="showRoutineSelection()")
+				label Routine
+				select.form-control(
+					ng-options="routine._id as routine.name for routine in routines"
+					ng-model="attribute.routine_id"
 				)
 
 	.modal-footer

@@ -1,6 +1,9 @@
 angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
-	execute: (routine, routineInputs) ->
-		console.log("Starting execution of routine '#{routine.name}'", routine)
+	execute: (routineId, routineInputs) ->
+		routine = Routines.findOne(routineId)
+		throw new Error('Cannot find specified routine.') unless routine?
+
+		console.log("Starting execution of routine '#{routine.name}'", routine, routineInputs)
 
 		services = angular.copy(routine.services)
 		throw new Error('Routine has no services.') unless services.length

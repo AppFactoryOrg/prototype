@@ -1,15 +1,18 @@
 angular.module('app-factory').controller 'DocumentViewCtrl', ($scope, $meteor, $filter, $modal, CreateDocumentModal, EditDocumentModal, ViewImageModal, ATTRIBUTE_TYPES, ROUTINE_TYPES, DocumentHelpers, RoutineHelper) ->
 	$scope.formatDocumentData = (document, attribute) ->
-		key = attribute['_id']
-		return unless document.data.hasOwnProperty(key)
-		value = document.data[key]
-		return switch attribute.type
-			when ATTRIBUTE_TYPES['Text'] then value
-			when ATTRIBUTE_TYPES['Number'] then $filter('number')(value, 2)
-			when ATTRIBUTE_TYPES['Date'] then $filter('date')(value, 'shortDate')
-			when ATTRIBUTE_TYPES['Currency'] then $filter('currency')(value, '$', 2)
-			when ATTRIBUTE_TYPES['Document'] then DocumentHelpers.getDocumentDisplayName(document, attribute)
-			else value
+		if attribute.type is ATTRIBUTE_TYPES['Routine']
+			return RoutineHelper.execute(attribute['routine_id'], [{name: 'Document', value: document}])
+		else
+			key = attribute['_id']
+			return unless document.data.hasOwnProperty(key)
+			value = document.data[key]
+			return switch attribute.type
+				when ATTRIBUTE_TYPES['Text'] then value
+				when ATTRIBUTE_TYPES['Number'] then $filter('number')(value, 2)
+				when ATTRIBUTE_TYPES['Date'] then $filter('date')(value, 'shortDate')
+				when ATTRIBUTE_TYPES['Currency'] then $filter('currency')(value, '$', 2)
+				when ATTRIBUTE_TYPES['Document'] then DocumentHelpers.getDocumentDisplayName(document, attribute)
+				else value
 
 	$scope.zoomImage = (imageId) ->
 		$modal.open(new ViewImageModal({imageId}))
@@ -39,7 +42,7 @@ angular.module('app-factory').controller 'DocumentViewCtrl', ($scope, $meteor, $
 		routineInputs = [
 			{name: 'Document', value: document}
 		]
-		RoutineHelper.execute(routine, routineInputs)
+		RoutineHelper.execute(routine['_id'], routineInputs)
 		mixpanel.track('routine_executed')
 
 	# Initialize

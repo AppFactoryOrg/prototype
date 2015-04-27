@@ -28,6 +28,10 @@ angular.module('app-factory').controller 'EditDocumentCtrl', ($scope, $rootScope
 	$scope.clearImage = (attribute) ->
 		$scope.document.data[attribute._id] = null
 
+	$scope.canEditAttribute = (attribute) ->
+		return false if attribute.type is ATTRIBUTE_TYPES['ROUTINE']
+		return true
+
 	$scope.selectDocument = (attribute) ->
 		documentSchemaId = attribute.document_type
 		modal = $modal.open(new LookupDocumentModal({documentSchemaId}))
