@@ -116,6 +116,41 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				return [{node: 'value', value: value}]
 		}
 		#########################################################################################
+		# SET ATTRIBUTE
+		#########################################################################################
+		{
+			serviceId: 'set_attribute'
+			name: 'Set Attribute'
+			color: '#70678E'
+			class: 'set-attribute'
+			configurable: true
+			configuration: 
+				document_schema_id: ''
+				attribute_id: ''
+			nodes: [
+				{
+					name: 'value'
+					type: 'input'
+					position: 'Left'
+				}
+				{
+					name: 'output'
+					type: 'output'
+					position: 'Right'
+				}
+			]
+			execute: ({service}) ->
+				throw new Error("Set Attribite service does not have any inputs") unless service.inputs?
+				throw new Error("Set Attribite service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
+				throw new Error("Set Attribite service does not have a configuration") unless service.configuration?
+				
+				value = 
+					attribute_id: service.configuration['attribute_id']
+					value: service.inputs['value']
+
+				return [{node: 'output', value: value}]
+		}
+		#########################################################################################
 		# DISPLAY MESSAGE
 		#########################################################################################
 		{ 
@@ -202,40 +237,5 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				$meteor.collection(Documents).save(document)
 				
 				return [{node: 'out'}]
-		}
-		#########################################################################################
-		# SET ATTRIBUTE
-		#########################################################################################
-		{
-			serviceId: 'set_attribute'
-			name: 'Set Attribute'
-			color: '#70678E'
-			class: 'set-attribute'
-			configurable: true
-			configuration: 
-				document_schema_id: ''
-				attribute_id: ''
-			nodes: [
-				{
-					name: 'value'
-					type: 'input'
-					position: 'Left'
-				}
-				{
-					name: 'output'
-					type: 'output'
-					position: 'Right'
-				}
-			]
-			execute: ({service}) ->
-				throw new Error("Set Attribite service does not have any inputs") unless service.inputs?
-				throw new Error("Set Attribite service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
-				throw new Error("Set Attribite service does not have a configuration") unless service.configuration?
-				
-				value = 
-					attribute_id: service.configuration['attribute_id']
-					value: service.inputs['value']
-
-				return [{node: 'output', value: value}]
 		}
 	]
