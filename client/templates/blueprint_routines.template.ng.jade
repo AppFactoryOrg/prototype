@@ -1,0 +1,37 @@
+.blueprint-routines(ng-controller="BlueprintRoutinesCtrl")
+	
+	.alert.alert-tip
+		i.fa.fa-info-circle
+		span Applications contain Routines. A Routine is a step-by-step workflow with inputs and outputs.
+		br/
+		i.fa.fa-info-circle
+		span Routines can be used to modify Documents, validate actions, send messages, and much more.
+
+	
+
+	table.table.table-hover.table-striped.table-condensed
+		thead
+			tr
+				th(width="200") Name
+				th Description
+				th(width="150") Type
+				th(width="150") Inputs
+				th(width="150") Outputs
+				th(width="70")
+		tbody
+			tr(ng-repeat="routine in routines")
+				td {{routine.name}}
+				td {{routine.description}}
+				td {{routine.type | dictionary:routineTypes}}
+				td {{formatRoutineInputs(routine)}}
+				td {{formatRoutineOutputs(routine)}}
+				td
+					.btn-group.pull-right
+						button.btn.btn-xs.btn-success(ng-click="editRoutine(routine)")
+							i.fa.fa-pencil
+						button.btn.btn-xs.btn-default(ng-click="deleteRoutine(routine)")
+							i.fa.fa-trash
+
+	button.btn.btn-sm.btn-success.create(ng-click="createRoutine()")
+		i.fa.fa-plus
+		label Add Routine

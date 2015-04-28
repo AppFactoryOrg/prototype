@@ -5,4 +5,5 @@ angular.module('app-factory').value 'ATTRIBUTE_TYPES', {
 	'Currency':     '3'
 	'Document':     '4'
 	'Image':		'6'
+	'Routine':		'7'
 }

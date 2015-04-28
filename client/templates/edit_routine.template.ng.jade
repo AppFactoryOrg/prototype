@@ -1,0 +1,146 @@
+.edit-routine(ng-controller="EditRoutineCtrl")
+	button.btn.btn-sm.btn-link(ng-click="goBack()") 
+		i.fa.fa-arrow-left
+		label Back to Routines
+	.routine-header.clearfix
+		h3.title Edit Routine: "{{routine.name}}"
+		.controls.pull-right
+			button.btn.btn-sm.btn-default(ng-click="goBack()") Discard Changes
+			button.btn.btn-sm.btn-success(ng-click="save()" ng-disabled="saving") 
+				span(ng-hide="saving") Save
+				span(ng-show="saving") Saved
+				i.fa.fa-save
+
+	tabset(ng-if="loaded")
+		tab(heading="Workflow")
+			.routine-workflow
+				.toolkit(ng-hide="selectedService")
+					.panel.panel-default
+						.panel-heading Services
+						.panel-body
+							.service-template(ng-repeat="service in services" ng-click="addService(service)")
+								.service-badge(ng-style="{'background-color': service.color}")
+								.service-name {{service.name}}
+
+				.service-configuration.panel.panel-default(ng-show="selectedService")
+					.panel-heading.clearfix
+						.service-name.pull-left {{selectedService.name}}
+						button.close.pull-right(type="button" ng-click="closeServiceConfig()") &times;
+					.panel-body(ng-switch="selectedService.serviceId")
+						div(ng-switch-when="input")
+							.form-group
+								label Name
+								input.form-control(
+									type="text"
+									ng-model="selectedService.configuration.name"
+								)
+							.form-group
+								label Type
+								select.form-control(
+									ng-options="value as key for (key, value) in dataTypes"
+									ng-model="selectedService.configuration.type"
+								)
+							.form-group(ng-show="showConfigurationDocumentSelection(selectedService)")
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+						div(ng-switch-when="output")
+							.form-group
+								label Name
+								input.form-control(
+									type="text"
+									ng-model="selectedService.configuration.name"
+								)
+							.form-group
+								label Type
+								select.form-control(
+									ng-options="value as key for (key, value) in dataTypes"
+									ng-model="selectedService.configuration.type"
+								)
+							.form-group(ng-show="showConfigurationDocumentSelection(selectedService)")
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+						div(ng-switch-when="value")
+							.form-group
+								label Value
+								textarea.form-control(
+									rows="5"
+									ng-model="selectedService.configuration.value"
+								)
+						div(ng-switch-when="define_variable")
+							.form-group
+								label Name
+								input.form-control(
+									type="text"
+									ng-model="selectedService.configuration.name"
+								)
+						div(ng-switch-when="set_attribute")
+							.form-group
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+							.form-group
+								label Attribute
+								select.form-control(
+									ng-options="attribute._id as attribute.name for attribute in attributes | filter:{'document_schema_id':selectedService.configuration.document_schema_id}"
+									ng-model="selectedService.configuration.attribute_id"
+								)
+						div(ng-switch-when="get_attribute")
+							.form-group
+								label Document Type
+								select.form-control(
+									ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas"
+									ng-model="selectedService.configuration.document_schema_id"
+								)
+							.form-group
+								label Attribute
+								select.form-control(
+									ng-options="attribute._id as attribute.name for attribute in attributes | filter:{'document_schema_id':selectedService.configuration.document_schema_id}"
+									ng-model="selectedService.configuration.attribute_id"
+								)
+
+						div(ng-switch-default)
+							p No configuration options available.
+
+				div#workflow-canvas
+					.service(
+						ng-repeat="service in routine.services"
+						id="{{service.id}}"
+						ng-class="service.class"
+						ng-switch="service.serviceId"
+						ng-click="serviceClicked(service, $event)"
+					)
+						.service-body
+							i.fa.fa-gear.edit-service.pull-right(ng-click="openServiceConfig(service)" ng-if="service.configurable")
+							.service-name {{service.name}}
+							.service-subtitle(ng-switch-when="value") {{service.configuration.value}}
+							.service-subtitle.long(ng-switch-when="input")
+								span {{service.configuration.name}}
+								span &nbsp;({{service.configuration.type | dictionary:dataTypes}})
+							.service-subtitle.long(ng-switch-when="output")
+								span {{service.configuration.name}}
+								span &nbsp;({{service.configuration.type | dictionary:dataTypes}})
+							.service-subtitle.long(ng-switch-when="define_variable")
+								span {{service.configuration.name}}
+							.service-subtitle.long(ng-switch-when="set_attribute") 
+								span {{getDocumentName(service.configuration.document_schema_id)}}
+								span &nbsp;.&nbsp;
+								span {{getAttributeName(service.configuration.attribute_id)}}
+							.service-subtitle.long(ng-switch-when="get_attribute") 
+								span {{getDocumentName(service.configuration.document_schema_id)}}
+								span &nbsp;.&nbsp;
+								span {{getAttributeName(service.configuration.attribute_id)}}
+
+				.delete-toggle
+					input(type="checkbox" ng-model="mode.delete" ng-true-value="true" ng-false-value="false")
+					label &nbsp;Delete Mode
+
+		//- tab(heading="Info")
+

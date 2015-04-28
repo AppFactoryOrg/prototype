@@ -5,7 +5,7 @@ angular.module('app-factory').factory 'CreateDocumentModal', ->
 		resolve:
 			'documentSchema': -> documentSchema
 
-angular.module('app-factory').controller 'CreateDocumentCtrl', ($scope, $modal, $rootScope, $upload, $meteor, $modalInstance, $stateParams, documentSchema, LookupDocumentModal, DocumentHelpers) ->
+angular.module('app-factory').controller 'CreateDocumentCtrl', ($scope, $modal, $rootScope, $upload, $meteor, $modalInstance, $stateParams, documentSchema, LookupDocumentModal, ATTRIBUTE_TYPES, DocumentHelpers) ->
 	application_id = $stateParams.application_id
 	
 	$scope.createMode = true
@@ -33,6 +33,10 @@ angular.module('app-factory').controller 'CreateDocumentCtrl', ($scope, $modal, 
 
 	$scope.clearImage = (attribute) ->
 		$scope.document.data[attribute._id] = null
+
+	$scope.canEditAttribute = (attribute) ->
+		return false if attribute.type is ATTRIBUTE_TYPES['Routine']
+		return true
 
 	$scope.selectDocument = (attribute) ->
 		documentSchemaId = attribute.document_type

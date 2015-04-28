@@ -7,7 +7,7 @@
 
 	.modal-body
 		form.form-horizontal(ng-submit="submit()" novalidate)
-			.form-group(ng-repeat="attribute in attributes" ng-switch="attribute.type")
+			.form-group(ng-repeat="attribute in attributes" ng-switch="attribute.type" ng-show="canEditAttribute(attribute)")
 				label.control-label.col-lg-3 {{attribute.name}}
 				.col-lg-1
 				.col-lg-7

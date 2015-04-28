@@ -48,6 +48,14 @@
 						e-ng-options="documentSchema._id as documentSchema.name for documentSchema in documentSchemas" 
 						e-required=""
 					) ({{getAttributeName(attribute.document_type)}})
+					span.routine-type(
+						ng-if="showRoutineSelection(attribute)"
+						editable-select="attribute.routine_id" 
+						e-name="routineid" 
+						e-form="rowform" 
+						e-ng-options="routine._id as routine.name for routine in routines" 
+						e-required=""
+					) ({{getRoutineName(attribute.routine_id)}})
 				td
 					form.form-buttons.form-inline(
 						editable-form="" 

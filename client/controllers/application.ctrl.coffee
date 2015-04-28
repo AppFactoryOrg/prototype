@@ -20,6 +20,7 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q
 			$meteor.subscribe('Views', $scope.blueprintId)
 			$meteor.subscribe('Attributes', $scope.blueprintId)
 			$meteor.subscribe('Documents', $scope.applicationId)
+			$meteor.subscribe('Routines', $scope.blueprintId)
 		]).then ->
 			$scope.documentSchemas = DocumentSchemas.find('blueprint_id': $scope.blueprintId).fetch()
 			$scope.screenSchemas = ScreenSchemas.find('blueprint_id': $scope.blueprintId).fetch()
