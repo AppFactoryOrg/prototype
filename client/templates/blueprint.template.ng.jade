@@ -1,13 +1,14 @@
 .blueprint(ng-controller="BlueprintCtrl")
 	
-	.panel.panel-info.blueprint-header
+	.panel.panel-default.blueprint-header
 		.panel-heading
-			span
-				i.fa.fa-flask
-				.name(ng-bind="blueprint.name")
-
-			.pull-right
-				.version(ng-bind="'v' + blueprint.version")
+			i.fa.fa-gear
+			span.name(ng-bind="blueprint.name")
+			span.version(ng-bind="'v' + blueprint.version")
+		
+			button.btn.btn-xs.btn-success.pull-right(ng-click="openApplication()")
+				i.fa.fa-globe
+				label Open
 
 	.nav.nav-tabs(ng-if="showNav()")
 		li(ui-sref-active="active")

@@ -4,7 +4,6 @@ angular.module('app-factory').factory 'CreateApplicationModal', ->
 		controller: 'CreateApplicationCtrl'
 
 angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $rootScope, $meteor, $modalInstance) ->
-	$scope.blueprints = $meteor.collection(Blueprints).subscribe('Blueprints')
 	$scope.themes = [
 		{name:'Cerulean', key: 'cerulean'}
 		{name:'Cosmo', key: 'cosmo'}
@@ -25,12 +24,10 @@ angular.module('app-factory').controller 'CreateApplicationCtrl', ($scope, $root
 	]
 
 	$scope.name = ''
-	$scope.selectedBlueprint = null
 	$scope.selectedTheme = $scope.themes[0].key
 
 	$scope.submit = ->
 		$modalInstance.close
 			'name': $scope.name
-			'blueprint': $scope.selectedBlueprint
 			'theme': $scope.selectedTheme
 			'owner_id': $rootScope.currentUser['_id']

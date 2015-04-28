@@ -11,13 +11,7 @@
 					ng-model="name"
 					autofocus
 				)
-			.form-group.col-sm-12.col-md-6
-				label Blueprint
-				select.form-control(
-					ng-options="blueprint.name for blueprint in blueprints" 
-					ng-model="selectedBlueprint"
-				)
-			.form-group.col-sm-12.col-md-6
+			.form-group.col-sm-12
 				label Theme
 				select.form-control(
 					ng-options="theme.key as theme.name for theme in themes" 

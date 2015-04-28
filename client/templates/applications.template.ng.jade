@@ -3,10 +3,13 @@
 
 	.alert.alert-tip
 		i.fa.fa-info-circle
-		span An Application contains data and logic defined by the format of its Blueprint.
+		span App Factory is a tool for creating and deploying web-based Applications.
 		br/
-		i.fa.fa-calendar
-		span In the future, other users will be able to login to your Applications and interact with them in a controlled manner.
+		i.fa.fa-info-circle
+		span As the creator of an Application, you can define the data, logic, and views that users will interact with in order to achieve their goals.
+		br/
+		i.fa.fa-info-circle
+		span Applications can be changed over time to suit the evolving needs of your users.
 
 	br/
 	button.btn.btn-sm.btn-success(ng-click="create()")
@@ -20,10 +23,13 @@
 			.panel-body
 				.name(ng-bind="application.name")
 
-				.controls.btn-group.pull-right
-					button.btn.btn-xs.btn-success(ng-click="edit(application)")
-						i.fa.fa-pencil
+				.controls.pull-right
+					button.btn.btn-xs.btn-success(ng-click="open(application)")
+						i.fa.fa-globe
 						label Open
+					button.btn.btn-xs.btn-info(ng-click="edit(application)")
+						i.fa.fa-pencil
+						label Edit
 					button.btn.btn-xs.btn-default(ng-click="delete(application)")
 						i.fa.fa-trash
 
