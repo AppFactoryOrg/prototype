@@ -10,7 +10,7 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q
 	$meteor.subscribe('Applications').then ->
 		$scope.application = Applications.findOne($scope.applicationId)
 		$scope.theme = $scope.application.theme || 'paper'
-		$scope.blueprintId = $scope.application.blueprint._id
+		$scope.blueprintId = $scope.application['blueprint_id']
 
 		document.title = $scope.application.name
 
