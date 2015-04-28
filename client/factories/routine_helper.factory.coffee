@@ -51,30 +51,38 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 				if result['node']?
 					resultNode = _.find(service.nodes, {'name': result['node']})
 					throw new Error('Routine cannot result node of service execution.') unless resultNode?
-
-					outputConnection = _.find(connections, {'fromNode': "#{service.id}_#{resultNode.name}"})
-					throw new Error('Routine cannot find output connection.') unless outputConnection?
-
-					outputService = _.find(services, {'id': outputConnection['toNode'].split('_')[0]})
-					throw new Error('Routine cannot find output service.') unless outputService?
-
 					
 					if resultNode.type is 'output'
-						# Pass output value to next service
-						inputNode = _.find(outputService.nodes, {name: outputConnection['toNode'].split('_')[1]})
-						throw new Error('Routine cannot find input node of output service.') unless inputNode?
-						
-						outputService.inputs = [] unless outputService.inputs?
-						if inputNode['multiple'] is true
-							outputService.inputs[inputNode['name']] = [] unless _.isArray(outputService.inputs[inputNode['name']])
-							outputService.inputs[inputNode['name']].push(result['value'])
-						else
-							outputService.inputs[inputNode['name']] = result['value']
-						console.log("Ending processing of service '#{service.name}'")
+						# Pass output value to next services
+						outputConnections = _.filter(connections, {'fromNode': "#{service.id}_#{resultNode.name}"})
+						throw new Error('Routine cannot find output connections.') unless outputConnections?
+
+						outputConnections.forEach (outputConnection) ->
+							outputService = _.find(services, {'id': outputConnection['toNode'].split('_')[0]})
+							throw new Error('Routine cannot find output service.') unless outputService?
+
+							inputNode = _.find(outputService.nodes, {name: outputConnection['toNode'].split('_')[1]})
+							throw new Error('Routine cannot find input node of output service.') unless inputNode?
+							
+							outputService.inputs = [] unless outputService.inputs?
+							if inputNode['multiple'] is true
+								outputService.inputs[inputNode['name']] = [] unless _.isArray(outputService.inputs[inputNode['name']])
+								outputService.inputs[inputNode['name']].push(result['value'])
+							else
+								outputService.inputs[inputNode['name']] = result['value']
+
+							console.log("Ending processing of service '#{service.name}'")
 
 					else if resultNode.type is 'outflow'
 						# Pass flow to next service
+						outputConnection = _.find(connections, {'fromNode': "#{service.id}_#{resultNode.name}"})
+						throw new Error('Routine cannot find output connection.') unless outputConnection?
+
+						outputService = _.find(services, {'id': outputConnection['toNode'].split('_')[0]})
+						throw new Error('Routine cannot find output service.') unless outputService?
+
 						console.log("Ending processing of service '#{service.name}'")
+						
 						processService(outputService)
 
 
@@ -94,7 +102,8 @@ angular.module('app-factory').factory 'RoutineHelper', (SERVICES) ->
 		outputServices.forEach (outputService) ->
 			output =
 				name: outputService['configuration']['name']
-				value: outputService['inputs']
+				type: outputService['configuration']['type']
+				value: outputService['inputs']['value']
 
 			outputData.push(output)
 

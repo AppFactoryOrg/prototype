@@ -3,7 +3,7 @@ angular.module('app-factory').factory 'CreateRoutineModal', ->
 		templateUrl: 'client/templates/create_routine.template.html'
 		controller: 'CreateRoutineCtrl'
 
-angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, $modalInstance, $stateParams, ROUTINE_TYPES, ROUTINE_DATATYPES) ->
+angular.module('app-factory').controller 'CreateRoutineCtrl', ($scope, $meteor, $modalInstance, $stateParams, ROUTINE_TYPES) ->
 	
 	$meteor.subscribe('DocumentSchemas', $stateParams.blueprint_id).then (handle) ->
 		$scope.$on '$destroy', -> handle?.stop()

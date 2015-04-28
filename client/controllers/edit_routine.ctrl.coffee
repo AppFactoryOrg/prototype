@@ -1,9 +1,9 @@
-angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, $q, ROUTINE_TYPES, ROUTINE_DATATYPES, SERVICES, RoutineHelper) ->
+angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $timeout, $state, $stateParams, $q, ROUTINE_TYPES, ATTRIBUTE_TYPES, SERVICES, RoutineHelper) ->
 
 	$scope.canvas = null
 	$scope.loaded = false
 	$scope.saving = false
-	$scope.dataTypes = ROUTINE_DATATYPES
+	$scope.dataTypes = ATTRIBUTE_TYPES
 	$scope.mode = {'delete': false}
 	$scope.services = SERVICES
 	$scope.selectedService = null
@@ -189,7 +189,7 @@ angular.module('app-factory').controller 'EditRoutineCtrl', ($scope, $meteor, $t
 		return documentSchema?.name
 
 	$scope.showConfigurationDocumentSelection = (selectedService) ->
-		return true if selectedService['configuration']['type'] is ROUTINE_DATATYPES['Document']
+		return true if selectedService['configuration']['type'] is ATTRIBUTE_TYPES['Document']
 		return false
 
 	$scope.goBack = ->

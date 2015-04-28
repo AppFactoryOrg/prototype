@@ -1,18 +1,29 @@
 angular.module('app-factory').controller 'DocumentViewCtrl', ($scope, $meteor, $filter, $modal, CreateDocumentModal, EditDocumentModal, ViewImageModal, ATTRIBUTE_TYPES, ROUTINE_TYPES, DocumentHelpers, RoutineHelper) ->
 	$scope.formatDocumentData = (document, attribute) ->
+		value = null
+		dataType = null
+		
 		if attribute.type is ATTRIBUTE_TYPES['Routine']
-			return RoutineHelper.execute(attribute['routine_id'], [{name: 'Document', value: document}])
+			try
+				result = RoutineHelper.execute(attribute['routine_id'], [{name: 'Document', value: document}])
+				value = result[0]['value']
+				dataType = result[0]['type']
+			catch error
+				console.error(error)
+				return "Error!"
 		else
 			key = attribute['_id']
 			return unless document.data.hasOwnProperty(key)
 			value = document.data[key]
-			return switch attribute.type
-				when ATTRIBUTE_TYPES['Text'] then value
-				when ATTRIBUTE_TYPES['Number'] then $filter('number')(value, 2)
-				when ATTRIBUTE_TYPES['Date'] then $filter('date')(value, 'shortDate')
-				when ATTRIBUTE_TYPES['Currency'] then $filter('currency')(value, '$', 2)
-				when ATTRIBUTE_TYPES['Document'] then DocumentHelpers.getDocumentDisplayName(document, attribute)
-				else value
+			dataType = attribute.type
+
+		return switch dataType
+			when ATTRIBUTE_TYPES['Text'] then value
+			when ATTRIBUTE_TYPES['Number'] then $filter('number')(value, 2)
+			when ATTRIBUTE_TYPES['Date'] then $filter('date')(value, 'shortDate')
+			when ATTRIBUTE_TYPES['Currency'] then $filter('currency')(value, '$', 2)
+			when ATTRIBUTE_TYPES['Document'] then DocumentHelpers.getDocumentDisplayName(document, attribute)
+			else value
 
 	$scope.zoomImage = (imageId) ->
 		$modal.open(new ViewImageModal({imageId}))

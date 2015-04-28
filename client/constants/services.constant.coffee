@@ -139,9 +139,9 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				}
 			]
 			execute: ({service}) ->
-				throw new Error("Get Attribite service does not have any inputs") unless service.inputs?
-				throw new Error("Get Attribite service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
-				throw new Error("Get Attribite service does not have a configuration") unless service.configuration?
+				throw new Error("Define Variable service does not have any inputs") unless service.inputs?
+				throw new Error("Define Variable service does not have a 'value' input") unless service.inputs.hasOwnProperty('value')
+				throw new Error("Define Variable service does not have a configuration") unless service.configuration?
 				
 				value =
 					name: service.configuration['name']				
@@ -352,16 +352,21 @@ angular.module('app-factory').factory 'SERVICES', ($meteor) ->
 				}
 			]
 			execute: ({service}) ->
-				throw new Error("Update Document service does not have any inputs") unless service.inputs?
-				throw new Error("Update Document service does not have a 'expression' input") unless service.inputs.hasOwnProperty('expression')
-				throw new Error("Update Document service does not have a 'variables' input") unless service.inputs.hasOwnProperty('variables')
+				throw new Error("Math service does not have any inputs") unless service.inputs?
+				throw new Error("Math service does not have a 'expression' input") unless service.inputs.hasOwnProperty('expression')
+				throw new Error("Math service does not have a 'variables' input") unless service.inputs.hasOwnProperty('variables')
 				
 				expression = service.inputs['expression']
 				variables = service.inputs['variables']
+				scope = {}
 				variables.forEach (variable) ->
-					expression = expression.replace(variable['name'], variable['value'])
+					name = variable['name']
+					value = variable['value']
+					throw new Error("Math service encountered a non-numeric variable.") unless _.isNumber(value)
 
-				value = math.eval(expression)
+					scope[name] = value
+
+				value = math.eval(expression, scope)
 
 				return [{node: 'out'}, {node: 'result', value: value}]
 		}
