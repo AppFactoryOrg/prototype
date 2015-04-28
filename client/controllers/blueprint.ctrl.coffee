@@ -1,13 +1,16 @@
-angular.module('app-factory').controller 'BlueprintCtrl', ($scope, $meteor, $state, $stateParams) ->
+angular.module('app-factory').controller 'BlueprintCtrl', ($scope, $q, $meteor, $state, $stateParams) ->
 	$scope.blueprintId = $stateParams.blueprint_id
-	$scope.blueprint = $meteor.object(Blueprints, $scope.blueprintId)
-
 	$scope.applicationId = $stateParams.application_id
+	$scope.blueprint = $meteor.object(Blueprints, $scope.blueprintId)
 	$scope.application = $meteor.object(Applications, $scope.applicationId)
+	$scope.blueprintLoaded = false
 
-	$meteor.subscribe('Blueprints')
-	$meteor.subscribe('DocumentSchemas', $scope.blueprintId)
-	$meteor.subscribe('Routines', $scope.blueprintId)
+	$q.all([
+		$meteor.subscribe('Blueprints')
+		$meteor.subscribe('DocumentSchemas', $scope.blueprintId)
+		$meteor.subscribe('Routines', $scope.blueprintId)
+	]).then ->
+		$scope.blueprintLoaded = true
 
 	$scope.showNav = ->
 		return false if $state.current.name is 'factory.blueprint.routine'
