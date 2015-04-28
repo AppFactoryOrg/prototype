@@ -11,12 +11,12 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 			url: '/home'
 			templateUrl: 'client/templates/home.template.html'
 
-		.state 'factory.blueprints',
-			url: '/blueprints'
-			templateUrl: 'client/templates/blueprints.template.html'
+		.state 'factory.applications',
+			url: '/applications'
+			templateUrl: 'client/templates/applications.template.html'
 
 		.state 'factory.blueprint',
-			url: '/blueprint/:blueprint_id'
+			url: '/blueprint/:application_id/:blueprint_id'
 			templateUrl: 'client/templates/blueprint.template.html'
 
 		.state 'factory.blueprint.documents',
@@ -34,10 +34,6 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 		.state 'factory.blueprint.routine',
 			url: '/routine/:routine_id'
 			templateUrl: 'client/templates/edit_routine.template.html'
-
-		.state 'factory.applications',
-			url: '/applications'
-			templateUrl: 'client/templates/applications.template.html'
 
 		.state 'application',
 			url: '/application/:application_id'
