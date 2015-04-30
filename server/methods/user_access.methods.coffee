@@ -11,7 +11,7 @@ Meteor.methods
 			text: " 
 				You have been invited to collaborate on the #{application.name} application. \n
 				Use the link below to complete your registration: \n\n
-				http://appfactory-proto.meteor.com/#/register/?code=#{user_access.invite_code}
+				http://appfactory-proto.meteor.com/#/register?code=#{user_access.invite_code}
 			"
 
 		UserAccess.insert(user_access)
