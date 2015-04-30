@@ -2,6 +2,10 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 
 	$stateProvider
 
+		.state 'register',
+			url: '/register?code'
+			templateUrl: 'client/templates/register.template.html'
+
 		.state 'factory',
 			url: '/factory'
 			abstract: true
@@ -34,6 +38,10 @@ angular.module('app-factory').config ($urlRouterProvider, $stateProvider) ->
 		.state 'factory.blueprint.routine',
 			url: '/routine/:routine_id'
 			templateUrl: 'client/templates/edit_routine.template.html'
+
+		.state 'factory.blueprint.users',
+			url: '/users'
+			templateUrl: 'client/templates/blueprint_users.template.html'
 
 		.state 'application',
 			url: '/application/:application_id'

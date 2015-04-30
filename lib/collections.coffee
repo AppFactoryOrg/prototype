@@ -7,3 +7,4 @@
 
 @Applications = new Mongo.Collection('applications')
 @Documents = new Mongo.Collection('documents')
+@UserAccess = new Mongo.Collection('user_access')

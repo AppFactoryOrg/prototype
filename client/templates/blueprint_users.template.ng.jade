@@ -1,0 +1,23 @@
+.blueprint-users(ng-controller="BlueprintUsersCtrl")
+	
+	.alert.alert-tip
+		i.fa.fa-info-circle
+		span Applications can have Users with varying users. You can invite a User to your Application by having App Factory send them an invitation email.
+
+	table.table.table-hover.table-striped.table-condensed(ng-show="users.length")
+		thead
+			tr
+				th Email
+				th(width="70")
+		tbody
+			tr(ng-repeat="user in users")
+				td {{user.email}}
+				td
+					.btn-group.pull-right
+						button.btn.btn-xs.btn-default(ng-click="deleteUser(user)")
+							i.fa.fa-trash
+
+	br/
+	button.btn.btn-sm.btn-success.create(ng-click="createUser()")
+		i.fa.fa-plus
+		label Invite User

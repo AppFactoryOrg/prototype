@@ -7,7 +7,7 @@ angular.module('app-factory').controller 'ApplicationCtrl', ($scope, $meteor, $q
 	$scope.screenSchemas = null
 	$scope.applicationIsLoaded = false
 
-	$meteor.subscribe('Applications').then ->
+	$meteor.subscribe('Applications', $scope.applicationId).then ->
 		$scope.application = Applications.findOne($scope.applicationId)
 		$scope.theme = $scope.application.theme || 'paper'
 		$scope.blueprintId = $scope.application['blueprint_id']

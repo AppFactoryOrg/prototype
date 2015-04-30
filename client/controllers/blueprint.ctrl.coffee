@@ -9,6 +9,7 @@ angular.module('app-factory').controller 'BlueprintCtrl', ($scope, $q, $meteor, 
 		$meteor.subscribe('Blueprints')
 		$meteor.subscribe('DocumentSchemas', $scope.blueprintId)
 		$meteor.subscribe('Routines', $scope.blueprintId)
+		$meteor.subscribe('UserAccess', $scope.applicationId)
 	]).then ->
 		$scope.blueprintLoaded = true
 

@@ -12,10 +12,20 @@
 
 	.nav.nav-tabs(ng-if="showNav()")
 		li(ui-sref-active="active")
-			a(ui-sref="factory.blueprint.documents") Documents
+			a(ui-sref="factory.blueprint.documents") 
+				i.fa.fa-file-text-o
+				span Documents
 		li(ui-sref-active="active")
-			a(ui-sref="factory.blueprint.screens") Screens
+			a(ui-sref="factory.blueprint.screens") 
+				i.fa.fa-th-large
+				span Screens
 		li(ui-sref-active="active")
-			a(ui-sref="factory.blueprint.routines") Routines
+			a(ui-sref="factory.blueprint.routines") 
+				i.fa.fa-dot-circle-o
+				span Routines
+		li(ui-sref-active="active")
+			a(ui-sref="factory.blueprint.users") 
+				i.fa.fa-user
+				span Users
 
 	div(ui-view="")

@@ -20,7 +20,11 @@
 	
 	meteor-include.clearfix(src="loginButtons")
 
-	div.body(ui-view="")
+	.body(ui-view="" ng-show="currentUser")
+	
+	.text-center(ng-hide="currentUser") 
+		i.fa.fa-lock
+		span Sign in to access this application.
 
 	footer
 		hr/

@@ -1,0 +1,16 @@
+link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.css" rel="stylesheet")
+
+.register(ng-controller="RegisterCtrl" ng-show="loaded")
+	.well
+		h1 Invitation to Collaborate on {{application.name}}
+		hr/
+
+		.login-first(ng-hide='currentUser')
+			h5 Login or Register:
+			meteor-include(src='loginButtons')
+
+		.accept-invitation(ng-show='currentUser')
+			button.btn.btn-success(ng-click="acceptInvitation()")
+				i.fa.fa-check
+				span Accept Invitation
+
